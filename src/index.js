@@ -1,5 +1,6 @@
 import { Project } from "./modules/project";
 import { Task } from "./modules/task";
+import { displayController } from "./modules/displayController";
 
 console.log("Okayyyyyyyyyyyyyy");
 
@@ -11,3 +12,5 @@ projectWork.addNewTask(
   new Task("Read JS in real world section", "---", "", "low", projectWork)
 );
 console.log(projectWork);
+
+// displayController
