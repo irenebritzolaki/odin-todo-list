@@ -3,8 +3,9 @@ import { Project } from "./project";
 export const displayController = (() => {
   const displayProject = (project) => {
     const projectsList = document.querySelector(".projects-list");
-    const listItem = document.createElement("li");
+    const listItem = document.createElement("div");
     listItem.innerText = project.name;
+    listItem.className = "project";
 
     projectsList.appendChild(listItem);
   };
