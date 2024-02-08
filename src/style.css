@@ -66,6 +66,38 @@ button.new-project-btn {
 .project:hover::after {
   content: " >>";
 }
+/* ----------------------- */
+
+.content {
+  padding: 40px;
+}
+
+.content .top {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 20px;
+  align-items: center;
+}
+
+.new-task-btn {
+  padding: 5px;
+  font-size: 18px;
+}
+
+.tasks-container {
+  margin-top: 10px;
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+}
+
+.task {
+  padding: 5px 10px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 /* ---------------- */
 
