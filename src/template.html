@@ -23,9 +23,13 @@
       </div>
     </div>
 
-    <dialog>
+    <dialog class="new-project-dialog">
       <div class="modal-content">
-        <form method="dialog">
+        <div class="top">
+          <h2>New Project</h2>
+          <button class="close-btn">X</button>
+        </div>
+        <form method="dialog" class="new-project-form">
           <label for="name">Project name: </label>
           <input
             type="text"
@@ -35,7 +39,7 @@
             required
           />
           <button type="submit" class="create-new-project-btn">
-            Create new project
+            Create project
           </button>
         </form>
       </div>

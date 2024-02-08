@@ -11,16 +11,14 @@ export const displayController = (() => {
   };
 
   document.querySelector(".new-project-btn").addEventListener("click", () => {
-    document.querySelector("dialog").show();
+    document.querySelector("dialog").showModal();
   });
 
-  document
-    .querySelector(".create-new-project-btn")
-    .addEventListener("click", (e) => {
-      e.preventDefault();
-      const project = new Project(document.querySelector("#name").value);
-      displayProject(project);
-      document.querySelector("form").reset();
-      document.querySelector("dialog").close();
-    });
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", () => {
+    const project = new Project(document.querySelector("#name").value);
+    displayProject(project);
+    form.reset();
+  });
 })();
