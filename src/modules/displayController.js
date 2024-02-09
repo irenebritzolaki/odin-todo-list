@@ -22,8 +22,19 @@ export const displayController = (() => {
 
     for (let task of project.tasks) {
       const taskItem = document.createElement("task");
-      taskItem.innerText = task.toString() + "\n";
       taskItem.className = "task";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", function () {
+        task.toggleComplete();
+      });
+      if (task.completed) checkbox.checked = true;
+      taskItem.appendChild(checkbox);
+
+      const label = document.createElement("label");
+      label.innerText = task.title;
+      taskItem.appendChild(label);
       tasksListDiv.appendChild(taskItem);
     }
   };

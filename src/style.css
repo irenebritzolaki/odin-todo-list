@@ -99,6 +99,15 @@ button.new-project-btn {
   gap: 10px;
 }
 
+.task input[type="checkbox"]:checked ~ label {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.task input[type="checkbox"] {
+  width: 20px;
+}
+
 /* ---------------- */
 
 dialog {

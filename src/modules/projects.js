@@ -1,3 +1,5 @@
+import { Task } from "./task";
+
 export const projectsController = (function () {
   class Project {
     constructor(name) {
@@ -5,7 +7,8 @@ export const projectsController = (function () {
       this.tasks = [];
     }
 
-    addNewTask(task) {
+    addNewTask(title, description, dueDate, priority) {
+      const task = new Task(title, description, dueDate, priority, this);
       this.tasks.push(task);
     }
   }
