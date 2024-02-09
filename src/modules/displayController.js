@@ -52,22 +52,42 @@ export const displayController = (() => {
   displayProjectsList();
 
   document.querySelector(".new-project-btn").addEventListener("click", () => {
-    document.querySelector("dialog").showModal();
+    document.querySelector(".new-project-dialog").showModal();
+  });
+
+  const newProjectForm = document.querySelector(".new-project-dialog form");
+  newProjectForm.addEventListener("submit", () => {
+    const projectName = document.querySelector("#name").value;
+    projectsController.createNewProject(projectName);
+    displayProjectsList();
+    newProjectForm.reset();
   });
 
   document.querySelector(".new-task-btn").addEventListener("click", () => {
     if (activeProject) {
-      activeProject.addNewTask("marika " + activeProject.name);
-      displayTasksList(activeProject);
+      // activeProject.addNewTask("marika " + activeProject.name);
+      document.querySelector(".new-task-dialog").showModal();
     }
   });
 
-  const form = document.querySelector("form");
+  const newTaskForm = document.querySelector(".new-task-dialog form");
+  newTaskForm.addEventListener("submit", () => {
+    // const projectName = document.querySelector("#name").value;
+    // projectsController.createNewProject(projectName);
+    // displayProjectsList();
+    const formData = new FormData(newTaskForm).entries();
+    console.log(...formData);
 
-  form.addEventListener("submit", () => {
-    const projectName = document.querySelector("#name").value;
-    projectsController.createNewProject(projectName);
-    displayProjectsList();
-    form.reset();
+    const title = document.querySelector("#title").value;
+    const description = document.querySelector("#description").value;
+    const dueDate = document.querySelector("#due-date").value;
+
+    let priority = undefined;
+    if (document.querySelector("input[name='priority']:checked"))
+      priority = document.querySelector("input[name='priority']:checked").value;
+
+    activeProject.addNewTask(title, description, dueDate, priority);
+    displayTasksList(activeProject);
+    newTaskForm.reset();
   });
 })();
