@@ -73,6 +73,9 @@ export const displayController = (() => {
       else detailsDiv.style.display = "none";
     });
 
+    if (task.priority)
+      taskDiv.style.borderColor = `var(--${task.priority}-priority-color)`;
+
     return taskDiv;
   };
 

@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+:root {
+  --high-priority-color: #dc262690;
+  --medium-priority-color: #eab30890;
+  --low-priority-color: #22c55e90;
+
+  --high-priority-color-opaque: #dc2626;
+  --medium-priority-color-opaque: #eab308;
+  --low-priority-color-opaque: #22c55e;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -88,16 +98,17 @@ button.new-project-btn {
   margin-top: 10px;
   display: flex;
   flex-flow: column;
-  gap: 5px;
+  gap: 10px;
 }
 
 .task {
   padding: 10px;
-  border: 1px solid gray;
+  border: 1px solid rgb(185, 185, 185);
   display: flex;
   flex-flow: column;
   font-size: 18px;
   gap: 10px;
+  border-left: 10px solid rgb(185, 185, 185);
 }
 
 .task .basic {
@@ -220,12 +231,12 @@ input[type="radio"] {
 
 input[type="radio"] ~ label {
   cursor: pointer;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 4px;
   padding: 5px 10px;
 }
 
 input[type="radio"]:checked ~ label {
-  background-color: black;
   color: white;
+  background-color: gray;
 }
