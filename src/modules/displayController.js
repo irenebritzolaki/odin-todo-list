@@ -72,12 +72,6 @@ export const displayController = (() => {
 
   const newTaskForm = document.querySelector(".new-task-dialog form");
   newTaskForm.addEventListener("submit", () => {
-    // const projectName = document.querySelector("#name").value;
-    // projectsController.createNewProject(projectName);
-    // displayProjectsList();
-    const formData = new FormData(newTaskForm).entries();
-    console.log(...formData);
-
     const title = document.querySelector("#title").value;
     const description = document.querySelector("#description").value;
     const dueDate = document.querySelector("#due-date").value;

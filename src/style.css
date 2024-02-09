@@ -167,8 +167,38 @@ button[type="submit"] {
   border: none;
 }
 
-input {
-  height: 35px;
-  padding: 5px;
+input,
+textarea {
+  padding: 10px;
   font-size: 18px;
+}
+
+textarea {
+  resize: none;
+}
+
+fieldset {
+  border: none;
+  display: flex;
+  gap: 10px;
+}
+
+legend {
+  margin-bottom: 20px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] ~ label {
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+input[type="radio"]:checked ~ label {
+  background-color: black;
+  color: white;
 }
