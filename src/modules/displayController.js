@@ -2,7 +2,12 @@ import { projectsController } from "./projects";
 import { isToday, isTomorrow, isYesterday } from "date-fns";
 
 export const displayController = (() => {
+  const ALL_MODE = 0;
+  const TODAY_MODE = 1;
+  const PROJECT_MODE = 2;
+
   let activeProject = undefined;
+  let viewMode = ALL_MODE;
 
   const displayProjectsList = () => {
     const projectsListDiv = document.querySelector(".projects-list");
@@ -87,23 +92,6 @@ export const displayController = (() => {
     return taskDiv;
   };
 
-  const displayTasksList = (project, resetPrevious = true) => {
-    const tasksListDiv = document.querySelector(".tasks-container");
-    if (resetPrevious) tasksListDiv.innerHTML = "";
-
-    for (let task of project.tasks) {
-      tasksListDiv.appendChild(createTaskDiv(task));
-    }
-  };
-
-  const displayAllTasks = () => {
-    activeProject = undefined;
-    document.querySelector(".tasks-container").innerHTML = "";
-    for (let project of projectsController.projectsList) {
-      displayTasksList(project, false);
-    }
-  };
-
   const displayTasks = (tasksArray) => {
     const tasksListDiv = document.querySelector(".tasks-container");
     tasksListDiv.innerHTML = "";
@@ -113,29 +101,32 @@ export const displayController = (() => {
   };
 
   const viewAll = () => {
-    activeProject = undefined;
+    viewMode = ALL_MODE;
+    resetProjectSelectorDefault();
+
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "All Tasks";
-    displayAllTasks();
-    resetProjectSelectorDefault();
+    displayTasks(projectsController.getAllTasks());
   };
 
   const viewTodayTasks = () => {
+    viewMode = TODAY_MODE;
+    resetProjectSelectorDefault();
+
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "Today";
-    // projectsController.getTodayTasks();
     displayTasks(projectsController.getTodayTasks());
-    resetProjectSelectorDefault();
-    // default date today on form
+    // todo default date today on form
   };
 
   const viewProject = (project) => {
+    viewMode = PROJECT_MODE;
     activeProject = project;
     setProjectSelectorDefault(project);
 
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = project.name;
-    displayTasksList(project);
+    displayTasks(project.tasks);
   };
 
   document.querySelector(".new-project-btn").addEventListener("click", () => {
@@ -197,7 +188,18 @@ export const displayController = (() => {
       .getProjectByName(projectSelector)
       .addNewTask(title, description, dueDate, priority);
 
-    activeProject ? displayTasksList(activeProject) : displayAllTasks();
+    let tasks;
+    switch (viewMode) {
+      case ALL_MODE:
+        tasks = projectsController.getAllTasks();
+        break;
+      case TODAY_MODE:
+        tasks = projectsController.getTodayTasks();
+        break;
+      case PROJECT_MODE:
+        tasks = activeProject.tasks;
+    }
+    displayTasks(tasks);
     newTaskForm.reset();
   });
 
