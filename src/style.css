@@ -218,7 +218,8 @@ button[type="submit"] {
 }
 
 input,
-textarea {
+textarea,
+select {
   padding: 10px;
   font-size: 18px;
 }

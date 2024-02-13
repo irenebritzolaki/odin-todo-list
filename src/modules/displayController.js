@@ -98,8 +98,17 @@ export const displayController = (() => {
     }
   };
 
+  const viewAll = () => {
+    const projectNameDiv = document.querySelector(".project-name");
+    projectNameDiv.innerText = "All Tasks";
+    displayAllTasks();
+    resetProjectSelectorDefault();
+  };
+
   const viewProject = (project) => {
     activeProject = project;
+    setProjectSelectorDefault(project);
+
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = project.name;
     displayTasksList(project);
@@ -113,15 +122,40 @@ export const displayController = (() => {
   newProjectForm.addEventListener("submit", () => {
     const projectName = document.querySelector("#name").value;
     projectsController.addNewProject(projectName);
+    updateProjectSelectorOptions();
     displayProjectsList();
     newProjectForm.reset();
   });
 
-  document.querySelector(".new-task-btn").addEventListener("click", () => {
-    if (activeProject) {
-      // activeProject.addNewTask("marika " + activeProject.name);
-      document.querySelector(".new-task-dialog").showModal();
+  const resetProjectSelectorDefault = () => {
+    const selectedOption = document.querySelector(
+      ".new-task-dialog form select option[selected]"
+    );
+
+    if (selectedOption) selectedOption.defaultSelected = false;
+  };
+
+  const setProjectSelectorDefault = (project) => {
+    document.querySelector(
+      `.new-task-dialog form select option[value='${project.name}']`
+    ).defaultSelected = true;
+  };
+
+  const updateProjectSelectorOptions = () => {
+    const projectSelectorOptions = document.querySelector(
+      ".new-task-dialog form select optgroup"
+    );
+    projectSelectorOptions.innerHTML = "";
+    for (let project of projectsController.projectsList) {
+      const newOption = document.createElement("option");
+      newOption.value = project.name;
+      newOption.innerText = project.name;
+      projectSelectorOptions.appendChild(newOption);
     }
+  };
+
+  document.querySelector(".new-task-btn").addEventListener("click", () => {
+    document.querySelector(".new-task-dialog").showModal();
   });
 
   const newTaskForm = document.querySelector(".new-task-dialog form");
@@ -134,24 +168,28 @@ export const displayController = (() => {
     if (document.querySelector("input[name='priority']:checked"))
       priority = document.querySelector("input[name='priority']:checked").value;
 
-    activeProject.addNewTask(title, description, dueDate, priority);
-    displayTasksList(activeProject);
+    const projectSelector = document.querySelector("#project-selector").value;
+    projectsController
+      .getProjectByName(projectSelector)
+      .addNewTask(title, description, dueDate, priority);
+
+    activeProject ? displayTasksList(activeProject) : displayAllTasks();
     newTaskForm.reset();
   });
 
   const initDisplay = () => {
     displayProjectsList();
-    displayAllTasks();
+    updateProjectSelectorOptions();
+    viewAll();
   };
 
   document
     .querySelector(".left-panel .all-tasks")
-    .addEventListener("click", displayAllTasks);
+    .addEventListener("click", viewAll);
 
   document.querySelectorAll(".close-btn").forEach((btn) =>
     btn.addEventListener("click", (event) => {
-      // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
-      event.target.offsetParent.getElementsByTagName("form")[0].reset();
+      event.target.offsetParent.getElementsByTagName("form")[0].reset(); // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
       event.target.offsetParent.close();
     })
   );

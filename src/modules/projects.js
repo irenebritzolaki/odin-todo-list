@@ -20,5 +20,12 @@ export const projectsController = (function () {
     projectsList.push(project);
   };
 
-  return { projectsList, addNewProject };
+  // will use ids later due to name-conflicts
+  const getProjectByName = (name) => {
+    for (let project of projectsList) {
+      if (project.name == name) return project;
+    }
+  };
+
+  return { projectsList, addNewProject, getProjectByName };
 })();
