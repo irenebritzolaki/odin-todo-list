@@ -129,19 +129,6 @@ export const displayController = (() => {
     displayTasks(project.tasks);
   };
 
-  document.querySelector(".new-project-btn").addEventListener("click", () => {
-    document.querySelector(".new-project-dialog").showModal();
-  });
-
-  const newProjectForm = document.querySelector(".new-project-dialog form");
-  newProjectForm.addEventListener("submit", () => {
-    const projectName = document.querySelector("#name").value;
-    projectsController.addNewProject(projectName);
-    updateProjectSelectorOptions();
-    displayProjectsList();
-    newProjectForm.reset();
-  });
-
   const resetProjectSelectorDefault = () => {
     const selectedOption = document.querySelector(
       ".new-task-dialog form select option[selected]"
@@ -169,60 +156,79 @@ export const displayController = (() => {
     }
   };
 
-  document.querySelector(".new-task-btn").addEventListener("click", () => {
-    document.querySelector(".new-task-dialog").showModal();
-  });
-
-  const newTaskForm = document.querySelector(".new-task-dialog form");
-  newTaskForm.addEventListener("submit", () => {
-    const title = document.querySelector("#title").value;
-    const description = document.querySelector("#description").value;
-    const dueDate = document.querySelector("#due-date").value;
-
-    let priority = undefined;
-    if (document.querySelector("input[name='priority']:checked"))
-      priority = document.querySelector("input[name='priority']:checked").value;
-
-    const projectSelector = document.querySelector("#project-selector").value;
-    projectsController
-      .getProjectByName(projectSelector)
-      .addNewTask(title, description, dueDate, priority);
-
-    let tasks;
-    switch (viewMode) {
-      case ALL_MODE:
-        tasks = projectsController.getAllTasks();
-        break;
-      case TODAY_MODE:
-        tasks = projectsController.getTodayTasks();
-        break;
-      case PROJECT_MODE:
-        tasks = activeProject.tasks;
-    }
-    displayTasks(tasks);
-    newTaskForm.reset();
-  });
-
   const initDisplay = () => {
     displayProjectsList();
     updateProjectSelectorOptions();
     viewAll();
   };
 
-  document
-    .querySelector(".left-panel .all-tasks")
-    .addEventListener("click", viewAll);
+  const addEventListeners = () => {
+    document
+      .querySelector(".left-panel .all-tasks")
+      .addEventListener("click", viewAll);
 
-  document
-    .querySelector(".left-panel .today-tasks")
-    .addEventListener("click", viewTodayTasks);
+    document
+      .querySelector(".left-panel .today-tasks")
+      .addEventListener("click", viewTodayTasks);
 
-  document.querySelectorAll(".close-btn").forEach((btn) =>
-    btn.addEventListener("click", (event) => {
-      event.target.offsetParent.getElementsByTagName("form")[0].reset(); // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
-      event.target.offsetParent.close();
-    })
-  );
+    document.querySelector(".new-project-btn").addEventListener("click", () => {
+      document.querySelector(".new-project-dialog").showModal();
+    });
+
+    const newProjectForm = document.querySelector(".new-project-dialog form");
+    newProjectForm.addEventListener("submit", () => {
+      const projectName = document.querySelector("#name").value;
+      projectsController.addNewProject(projectName);
+      updateProjectSelectorOptions();
+      displayProjectsList();
+      newProjectForm.reset();
+    });
+
+    document.querySelector(".new-task-btn").addEventListener("click", () => {
+      document.querySelector(".new-task-dialog").showModal();
+    });
+
+    const newTaskForm = document.querySelector(".new-task-dialog form");
+    newTaskForm.addEventListener("submit", () => {
+      const title = document.querySelector("#title").value;
+      const description = document.querySelector("#description").value;
+      const dueDate = document.querySelector("#due-date").value;
+
+      let priority = undefined;
+      if (document.querySelector("input[name='priority']:checked"))
+        priority = document.querySelector(
+          "input[name='priority']:checked"
+        ).value;
+
+      const projectSelector = document.querySelector("#project-selector").value;
+      projectsController
+        .getProjectByName(projectSelector)
+        .addNewTask(title, description, dueDate, priority);
+
+      let tasks;
+      switch (viewMode) {
+        case ALL_MODE:
+          tasks = projectsController.getAllTasks();
+          break;
+        case TODAY_MODE:
+          tasks = projectsController.getTodayTasks();
+          break;
+        case PROJECT_MODE:
+          tasks = activeProject.tasks;
+      }
+      displayTasks(tasks);
+      newTaskForm.reset();
+    });
+
+    document.querySelectorAll(".close-btn").forEach((btn) =>
+      btn.addEventListener("click", (event) => {
+        event.target.offsetParent.getElementsByTagName("form")[0].reset(); // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
+        event.target.offsetParent.close();
+      })
+    );
+  };
+
+  addEventListeners();
 
   return { initDisplay };
 })();
