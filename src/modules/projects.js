@@ -28,6 +28,12 @@ export const projectsController = (function () {
     }
   };
 
+  const getAllTasks = () => {
+    let allTasks = [];
+    for (let project of projectsList) allTasks = allTasks.concat(project.tasks);
+    return allTasks;
+  };
+
   const getTodayTasks = () => {
     let todayTasks = [];
     for (let project of projectsList) {
@@ -39,5 +45,11 @@ export const projectsController = (function () {
     return todayTasks;
   };
 
-  return { projectsList, addNewProject, getProjectByName, getTodayTasks };
+  return {
+    projectsList,
+    addNewProject,
+    getProjectByName,
+    getTodayTasks,
+    getAllTasks,
+  };
 })();
