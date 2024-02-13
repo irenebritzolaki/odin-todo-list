@@ -1,7 +1,7 @@
 import { projectsController } from "./projects";
 
 export const displayController = (() => {
-  let activeProject = null;
+  let activeProject = undefined;
 
   const displayProjectsList = () => {
     const projectsListDiv = document.querySelector(".projects-list");
@@ -35,10 +35,12 @@ export const displayController = (() => {
     titleLabel.innerText = task.title;
     basicDiv.appendChild(titleLabel);
 
-    const projectName = document.createElement("h4");
-    projectName.innerText = task.project.name;
-    projectName.className = "project-name";
-    basicDiv.appendChild(projectName);
+    const projectBtn = document.createElement("button");
+    projectBtn.innerText = task.project.name;
+    projectBtn.className = "go-to-project";
+    projectBtn.addEventListener("click", () => viewProject(task.project));
+    if (activeProject != undefined) projectBtn.style.visibility = "hidden";
+    basicDiv.appendChild(projectBtn);
 
     const dueDate = document.createElement("p");
     dueDate.className = "dueDate";
@@ -89,6 +91,7 @@ export const displayController = (() => {
   };
 
   const displayAllTasks = () => {
+    activeProject = undefined;
     document.querySelector(".tasks-container").innerHTML = "";
     for (let project of projectsController.projectsList) {
       displayTasksList(project, false);

@@ -55,4 +55,12 @@ projectsController.projectsList[2].addNewTask(
   "high"
 );
 
+projectsController.addNewProject("Zavarakatranemia");
+projectsController.projectsList[3].addNewTask(
+  "Okkkkkkkkkkkkkkkkkkkkk",
+  "",
+  "",
+  ""
+);
+
 displayController.initDisplay();
