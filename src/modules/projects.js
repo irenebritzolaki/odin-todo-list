@@ -15,10 +15,10 @@ export const projectsController = (function () {
 
   let projectsList = [];
 
-  const createNewProject = (projectName) => {
+  const addNewProject = (projectName) => {
     const project = new Project(projectName);
     projectsList.push(project);
   };
 
-  return { projectsList, createNewProject };
+  return { projectsList, addNewProject };
 })();

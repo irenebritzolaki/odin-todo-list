@@ -109,11 +109,6 @@ export const displayController = (() => {
     displayTasksList(project);
   };
 
-  projectsController.createNewProject("Personal");
-  projectsController.createNewProject("Work");
-  projectsController.createNewProject("Gym");
-  displayProjectsList();
-
   document.querySelector(".new-project-btn").addEventListener("click", () => {
     document.querySelector(".new-project-dialog").showModal();
   });
@@ -121,7 +116,7 @@ export const displayController = (() => {
   const newProjectForm = document.querySelector(".new-project-dialog form");
   newProjectForm.addEventListener("submit", () => {
     const projectName = document.querySelector("#name").value;
-    projectsController.createNewProject(projectName);
+    projectsController.addNewProject(projectName);
     displayProjectsList();
     newProjectForm.reset();
   });
@@ -147,4 +142,11 @@ export const displayController = (() => {
     displayTasksList(activeProject);
     newTaskForm.reset();
   });
+
+  const initDisplay = () => {
+    displayProjectsList();
+    displayTasksList();
+  };
+
+  return { initDisplay };
 })();
