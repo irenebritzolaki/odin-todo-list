@@ -1,4 +1,5 @@
 import { projectsController } from "./projects";
+import { isToday, isTomorrow, isYesterday } from "date-fns";
 
 export const displayController = (() => {
   let activeProject = undefined;
@@ -44,7 +45,12 @@ export const displayController = (() => {
 
     const dueDate = document.createElement("p");
     dueDate.className = "dueDate";
-    dueDate.innerText = task.dueDate;
+
+    if (isToday(task.dueDate)) dueDate.innerText = "Today";
+    else if (isTomorrow(task.dueDate)) dueDate.innerText = "Tomorrow";
+    else if (isYesterday(task.dueDate)) dueDate.innerText = "Yesterday";
+    else dueDate.innerText = task.dueDate;
+
     basicDiv.appendChild(dueDate);
 
     const viewBtn = document.createElement("button");

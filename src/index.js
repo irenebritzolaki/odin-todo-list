@@ -25,20 +25,20 @@ projectsController.projectsList[0].addNewTask(
 projectsController.projectsList[0].addNewTask(
   "Go to the dentist",
   "Location: nai nai nai\n Tel: 123456789",
-  "20-02-2024",
+  "02-20-2024",
   "high"
 );
 
 projectsController.projectsList[1].addNewTask(
   "Fix bug #7677",
   "",
-  "15-02-2024",
+  "02-15-2024",
   "high"
 );
 projectsController.projectsList[1].addNewTask(
   "Fix bug #5588",
   "",
-  "14-02-2024",
+  "02-14-2024",
   "high"
 );
 projectsController.projectsList[1].addNewTask(
@@ -51,7 +51,7 @@ projectsController.projectsList[1].addNewTask(
 projectsController.projectsList[2].addNewTask(
   "Workout",
   "",
-  "13-02-2024",
+  "02-13-2024",
   "high"
 );
 
