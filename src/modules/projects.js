@@ -1,4 +1,5 @@
 import { Task } from "./task";
+import { isToday } from "date-fns";
 
 export const projectsController = (function () {
   class Project {
@@ -27,5 +28,16 @@ export const projectsController = (function () {
     }
   };
 
-  return { projectsList, addNewProject, getProjectByName };
+  const getTodayTasks = () => {
+    let todayTasks = [];
+    for (let project of projectsList) {
+      for (let task of project.tasks) {
+        if (isToday(task.dueDate)) todayTasks.push(task);
+      }
+    }
+
+    return todayTasks;
+  };
+
+  return { projectsList, addNewProject, getProjectByName, getTodayTasks };
 })();

@@ -104,11 +104,29 @@ export const displayController = (() => {
     }
   };
 
+  const displayTasks = (tasksArray) => {
+    const tasksListDiv = document.querySelector(".tasks-container");
+    tasksListDiv.innerHTML = "";
+    for (let task of tasksArray) {
+      tasksListDiv.appendChild(createTaskDiv(task));
+    }
+  };
+
   const viewAll = () => {
+    activeProject = undefined;
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "All Tasks";
     displayAllTasks();
     resetProjectSelectorDefault();
+  };
+
+  const viewTodayTasks = () => {
+    const projectNameDiv = document.querySelector(".project-name");
+    projectNameDiv.innerText = "Today";
+    // projectsController.getTodayTasks();
+    displayTasks(projectsController.getTodayTasks());
+    resetProjectSelectorDefault();
+    // default date today on form
   };
 
   const viewProject = (project) => {
@@ -192,6 +210,10 @@ export const displayController = (() => {
   document
     .querySelector(".left-panel .all-tasks")
     .addEventListener("click", viewAll);
+
+  document
+    .querySelector(".left-panel .today-tasks")
+    .addEventListener("click", viewTodayTasks);
 
   document.querySelectorAll(".close-btn").forEach((btn) =>
     btn.addEventListener("click", (event) => {
