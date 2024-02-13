@@ -148,5 +148,13 @@ export const displayController = (() => {
     .querySelector(".left-panel .all-tasks")
     .addEventListener("click", displayAllTasks);
 
+  document.querySelectorAll(".close-btn").forEach((btn) =>
+    btn.addEventListener("click", (event) => {
+      // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
+      event.target.offsetParent.getElementsByTagName("form")[0].reset();
+      event.target.offsetParent.close();
+    })
+  );
+
   return { initDisplay };
 })();
