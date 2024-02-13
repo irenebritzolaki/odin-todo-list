@@ -115,19 +115,17 @@ button.new-project-btn {
   display: grid;
   grid-template-columns: 0.2fr 12fr 1fr 0.5fr;
   align-items: center;
-  /* padding: 10px; */
   gap: 10px;
+}
+
+.task .dueDate {
+  text-align: center;
 }
 
 .task .details {
   border-top: 1px solid gray;
   padding: 10px 5px;
   padding-bottom: 0;
-}
-
-.task .priority,
-.dueDate {
-  width: min-content;
 }
 
 .view-btn {
