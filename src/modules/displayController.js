@@ -10,7 +10,7 @@ export const displayController = (() => {
     for (let project of projectsController.projectsList) {
       const projectItem = document.createElement("div");
       projectItem.innerText = project.name;
-      projectItem.className = "project";
+      projectItem.className = "project tab";
       projectItem.addEventListener("click", () => viewProject(project));
       projectsListDiv.appendChild(projectItem);
     }
@@ -31,19 +31,19 @@ export const displayController = (() => {
     if (task.completed) checkbox.checked = true;
     basicDiv.appendChild(checkbox);
 
-    const label = document.createElement("label");
-    label.innerText = task.title;
-    basicDiv.appendChild(label);
+    const titleLabel = document.createElement("label");
+    titleLabel.innerText = task.title;
+    basicDiv.appendChild(titleLabel);
+
+    const projectName = document.createElement("h4");
+    projectName.innerText = task.project.name;
+    projectName.className = "project-name";
+    basicDiv.appendChild(projectName);
 
     const dueDate = document.createElement("p");
     dueDate.className = "dueDate";
     dueDate.innerText = task.dueDate;
     basicDiv.appendChild(dueDate);
-
-    // const priority = document.createElement("p");
-    // priority.className = "priority";
-    // priority.innerText = task.priority;
-    // taskDiv.appendChild(priority);
 
     const viewBtn = document.createElement("button");
     viewBtn.className = "view-btn";
@@ -56,9 +56,9 @@ export const displayController = (() => {
     detailsDiv.className = "details";
     detailsDiv.style.display = "none";
 
-    const h4 = document.createElement("h4");
-    h4.innerText = "Description:";
-    detailsDiv.appendChild(h4);
+    const descriptionLabel = document.createElement("h4");
+    descriptionLabel.innerText = "Description:";
+    detailsDiv.appendChild(descriptionLabel);
 
     const description = document.createElement("p");
     description.className = "description";
@@ -79,26 +79,19 @@ export const displayController = (() => {
     return taskDiv;
   };
 
-  const displayTasksList = (project) => {
+  const displayTasksList = (project, resetPrevious = true) => {
     const tasksListDiv = document.querySelector(".tasks-container");
-    tasksListDiv.innerHTML = "";
+    if (resetPrevious) tasksListDiv.innerHTML = "";
 
     for (let task of project.tasks) {
-      // const taskItem = document.createElement("div");
-      // taskItem.className = "task";
-
-      // const checkbox = document.createElement("input");
-      // checkbox.type = "checkbox";
-      // checkbox.addEventListener("change", function () {
-      //   task.toggleComplete();
-      // });
-      // if (task.completed) checkbox.checked = true;
-      // taskItem.appendChild(checkbox);
-
-      // const label = document.createElement("label");
-      // label.innerText = task.title;
-      // taskItem.appendChild(label);
       tasksListDiv.appendChild(createTaskDiv(task));
+    }
+  };
+
+  const displayAllTasks = () => {
+    document.querySelector(".tasks-container").innerHTML = "";
+    for (let project of projectsController.projectsList) {
+      displayTasksList(project, false);
     }
   };
 
@@ -145,8 +138,12 @@ export const displayController = (() => {
 
   const initDisplay = () => {
     displayProjectsList();
-    displayTasksList();
+    displayAllTasks();
   };
+
+  document
+    .querySelector(".left-panel .all-tasks")
+    .addEventListener("click", displayAllTasks);
 
   return { initDisplay };
 })();
