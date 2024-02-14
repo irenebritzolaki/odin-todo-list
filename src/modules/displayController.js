@@ -4,7 +4,8 @@ import { isToday, isTomorrow, isYesterday } from "date-fns";
 export const displayController = (() => {
   const ALL_MODE = 0;
   const TODAY_MODE = 1;
-  const PROJECT_MODE = 2;
+  const NEXT7DAYS_MODE = 2;
+  const PROJECT_MODE = 3;
 
   let activeProject = undefined;
   let viewMode = ALL_MODE;
@@ -119,6 +120,16 @@ export const displayController = (() => {
     // todo default date today on form
   };
 
+  const viewNext7DaysTasks = () => {
+    viewMode = NEXT7DAYS_MODE;
+    resetProjectSelectorDefault();
+
+    const projectNameDiv = document.querySelector(".project-name");
+    projectNameDiv.innerText = "Next 7 Days";
+    displayTasks(projectsController.getNext7DaysTasks());
+    // todo default date today on form
+  };
+
   const viewProject = (project) => {
     viewMode = PROJECT_MODE;
     activeProject = project;
@@ -171,6 +182,10 @@ export const displayController = (() => {
       .querySelector(".left-panel .today-tasks")
       .addEventListener("click", viewTodayTasks);
 
+    document
+      .querySelector(".left-panel .next7days-tasks")
+      .addEventListener("click", viewNext7DaysTasks);
+
     document.querySelector(".new-project-btn").addEventListener("click", () => {
       document.querySelector(".new-project-dialog").showModal();
     });
@@ -212,6 +227,9 @@ export const displayController = (() => {
           break;
         case TODAY_MODE:
           tasks = projectsController.getTodayTasks();
+          break;
+        case NEXT7DAYS_MODE:
+          tasks = projectsController.getNext7DaysTasks();
           break;
         case PROJECT_MODE:
           tasks = activeProject.tasks;

@@ -1,5 +1,12 @@
 import { Task } from "./task";
-import { isToday } from "date-fns";
+import {
+  isToday,
+  isBefore,
+  isAfter,
+  addDays,
+  subDays,
+  startOfToday,
+} from "date-fns";
 
 export const projectsController = (function () {
   class Project {
@@ -45,11 +52,27 @@ export const projectsController = (function () {
     return todayTasks;
   };
 
+  const getNext7DaysTasks = () => {
+    let tasks = [];
+    for (let project of projectsList) {
+      for (let task of project.tasks) {
+        if (
+          isAfter(task.dueDate, subDays(startOfToday(), 1)) &&
+          isBefore(task.dueDate, addDays(startOfToday(), 7))
+        )
+          tasks.push(task);
+      }
+    }
+
+    return tasks;
+  };
+
   return {
     projectsList,
     addNewProject,
     getProjectByName,
     getTodayTasks,
     getAllTasks,
+    getNext7DaysTasks,
   };
 })();
