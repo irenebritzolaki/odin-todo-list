@@ -68,9 +68,9 @@ export const displayController = (() => {
 
   const setProjectModalMode = () => {
     document.querySelector(".new-project-dialog .dialog-title").innerText =
-      renameProjectMode ? "Edit Task" : "New Task";
+      renameProjectMode ? "Rename Project" : "New Project";
     document.querySelector(".create-new-project-btn").innerText =
-      renameProjectMode ? "Update Task" : "Add Task";
+      renameProjectMode ? "Update Project" : "Create Project";
   };
 
   const openRenameProject = (project) => {
@@ -264,12 +264,12 @@ export const displayController = (() => {
     }
   };
 
-  const setModalMode = () => {
-    document.querySelector(".new-project-dialog .dialog-title").innerText =
-      editTaskMode ? "Rename Project" : "New Project";
-    document.querySelector(".create-new-project-btn").innerText = editTaskMode
-      ? "Update Project"
-      : "Create Project";
+  const setTaskModalMode = () => {
+    document.querySelector(".new-task-dialog .dialog-title").innerText =
+      editTaskMode ? "Edit Task" : "New Task";
+    document.querySelector(".create-new-task-btn").innerText = editTaskMode
+      ? "Update Task"
+      : "Add Task";
   };
 
   const openEditTask = (task) => {
@@ -289,7 +289,7 @@ export const displayController = (() => {
 
     document.querySelector(`option[value=${task.project.name}`).selected = true;
 
-    setModalMode();
+    setTaskModalMode();
     document.querySelector(".new-task-dialog").showModal();
   };
 
@@ -313,6 +313,7 @@ export const displayController = (() => {
       .addEventListener("click", viewNext7DaysTasks);
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
+      setProjectModalMode();
       document.querySelector(".new-project-dialog").showModal();
     });
 
@@ -332,7 +333,7 @@ export const displayController = (() => {
     });
 
     document.querySelector(".new-task-btn").addEventListener("click", () => {
-      setModalMode();
+      setTaskModalMode();
       document.querySelector(".new-task-dialog").showModal();
     });
 
