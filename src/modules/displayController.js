@@ -49,7 +49,8 @@ export const displayController = (() => {
     projectBtn.innerText = task.project.name;
     projectBtn.className = "go-to-project";
     projectBtn.addEventListener("click", () => viewProject(task.project));
-    if (activeProject != undefined) projectBtn.style.visibility = "hidden";
+    if (viewMode === PROJECT_MODE) projectBtn.style.visibility = "hidden";
+
     basicDiv.appendChild(projectBtn);
 
     const dueDate = document.createElement("p");
