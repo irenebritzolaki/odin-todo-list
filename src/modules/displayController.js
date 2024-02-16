@@ -1,4 +1,11 @@
-import { isToday, isTomorrow, isYesterday, format } from "date-fns";
+import {
+  isToday,
+  isTomorrow,
+  isYesterday,
+  isBefore,
+  startOfToday,
+  format,
+} from "date-fns";
 import { appController } from "./appController";
 
 export const displayController = (() => {
@@ -106,6 +113,9 @@ export const displayController = (() => {
     else if (isTomorrow(task.dueDate)) dueDate.innerText = "Tomorrow";
     else if (isYesterday(task.dueDate)) dueDate.innerText = "Yesterday";
     else dueDate.innerText = task.dueDate;
+
+    if (isBefore(task.dueDate, startOfToday()))
+      dueDate.classList.add("expired");
 
     basicDiv.appendChild(dueDate);
 
