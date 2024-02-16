@@ -13,6 +13,9 @@ export const displayController = (() => {
   let editTaskMode = false;
   let taskToEdit = undefined;
 
+  let renameProjectMode = false;
+  let projectToRename = undefined;
+
   const displayProjectsList = () => {
     const projectsListDiv = document.querySelector(".projects-list");
     projectsListDiv.innerHTML = "";
@@ -34,6 +37,7 @@ export const displayController = (() => {
       buttonsDiv.appendChild(renameProjectBtn);
       renameProjectBtn.addEventListener("click", () => {
         console.log("rename");
+        openRenameProject(project);
       });
 
       const deleteProjectBtn = document.createElement("button");
@@ -41,6 +45,7 @@ export const displayController = (() => {
       deleteProjectBtn.innerText = "D";
       buttonsDiv.appendChild(deleteProjectBtn);
       deleteProjectBtn.addEventListener("click", () => {
+        // todo show modal for confirming delete
         appController.deleteProject(project);
         displayProjectsList();
       });
@@ -49,6 +54,22 @@ export const displayController = (() => {
       projectItem.addEventListener("click", () => viewProject(project));
       projectsListDiv.appendChild(projectItem);
     }
+  };
+
+  const setProjectModalMode = () => {
+    document.querySelector(".new-project-dialog .dialog-title").innerText =
+      renameProjectMode ? "Edit Task" : "New Task";
+    document.querySelector(".create-new-project-btn").innerText =
+      renameProjectMode ? "Update Task" : "Add Task";
+  };
+
+  const openRenameProject = (project) => {
+    projectToRename = project;
+    renameProjectMode = true;
+    document.querySelector("#name").value = project.name;
+
+    setProjectModalMode();
+    document.querySelector(".new-project-dialog").showModal();
   };
 
   const createTaskDiv = (task) => {
@@ -231,12 +252,11 @@ export const displayController = (() => {
   };
 
   const setModalMode = () => {
-    document.querySelector(".dialog-title").innerText = editTaskMode
-      ? "Edit Task"
-      : "New Task";
-    document.querySelector(".create-new-task-btn").innerText = editTaskMode
-      ? "Update Task"
-      : "Add Task";
+    document.querySelector(".new-project-dialog .dialog-title").innerText =
+      editTaskMode ? "Rename Project" : "New Project";
+    document.querySelector(".create-new-project-btn").innerText = editTaskMode
+      ? "Update Project"
+      : "Create Project";
   };
 
   const openEditTask = (task) => {
@@ -286,9 +306,13 @@ export const displayController = (() => {
     const newProjectForm = document.querySelector(".new-project-dialog form");
     newProjectForm.addEventListener("submit", () => {
       const projectName = document.querySelector("#name").value;
-      appController.addNewProject(projectName);
+
+      if (renameProjectMode) projectToRename.rename(projectName);
+      else appController.addNewProject(projectName);
+
       updateProjectSelectorOptions();
       displayProjectsList();
+      renameProjectMode = false;
       newProjectForm.reset();
     });
 
@@ -336,6 +360,7 @@ export const displayController = (() => {
         event.target.offsetParent.getElementsByTagName("form")[0].reset(); // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
         event.target.offsetParent.close();
         editTaskMode = false;
+        renameProjectMode = false;
       })
     );
   };
