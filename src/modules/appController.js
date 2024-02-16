@@ -16,6 +16,14 @@ export const appController = (() => {
     projectsList.push(project);
   };
 
+  const deleteProject = (project) => {
+    let index = -1;
+    for (let i = 0; i < projectsList.length; i++) {
+      if (projectsList[i] === project) index = i;
+    }
+    projectsList.splice(index, 1);
+  };
+
   // will use ids later due to name-conflicts
   const getProjectByName = (name) => {
     for (let project of projectsList) {
@@ -58,6 +66,7 @@ export const appController = (() => {
   return {
     projectsList,
     addNewProject,
+    deleteProject,
     getProjectByName,
     getTodayTasks,
     getAllTasks,

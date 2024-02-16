@@ -41,7 +41,8 @@ export const displayController = (() => {
       deleteProjectBtn.innerText = "D";
       buttonsDiv.appendChild(deleteProjectBtn);
       deleteProjectBtn.addEventListener("click", () => {
-        console.log("delete");
+        appController.deleteProject(project);
+        displayProjectsList();
       });
 
       projectItem.appendChild(buttonsDiv);
