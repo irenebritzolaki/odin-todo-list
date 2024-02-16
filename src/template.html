@@ -31,76 +31,85 @@
       </div>
     </div>
 
-    <dialog class="new-project-dialog">
+    <dialog class="project-dialog">
       <div class="modal-content">
         <div class="top">
           <h2 class="dialog-title">New Project</h2>
           <button class="close-btn">X</button>
         </div>
-        <form method="dialog" class="new-project-form">
-          <label for="name">Project name: </label>
+        <form method="dialog" class="project-form">
+          <label for="project-name">Project name: </label>
           <input
             type="text"
-            name="name"
-            id="name"
+            name="project-name"
+            id="project-name"
             placeholder="e.g. Work"
             required
             autofocus
           />
-          <button type="submit" class="create-new-project-btn">
+          <button type="submit" class="submit-project-btn">
             Create project
           </button>
         </form>
       </div>
     </dialog>
 
-    <dialog class="new-task-dialog">
+    <dialog class="task-dialog">
       <div class="modal-content">
         <div class="top">
           <h2 class="dialog-title">New Task</h2>
           <button class="close-btn">X</button>
         </div>
-        <form method="dialog" class="new-task-form">
-          <label for="name">Title: </label>
+        <form method="dialog" class="task-form">
+          <label for="task-title">Title: </label>
           <input
             type="text"
-            name="title"
-            id="title"
+            name="task-title"
+            id="task-title"
             placeholder="e.g. Study for the exam"
             required
             autofocus
           />
-          <label for="name">Description: </label>
+          <label for="task-description">Description: </label>
           <textarea
-            name="description"
-            id="description"
+            name="task-description"
+            id="task-description"
             cols="30"
             rows="6"
             placeholder="Description of the task"
           ></textarea>
-          <label for="name">Due date: </label>
-          <input type="date" name="due-date" id="due-date" />
+          <label for="task-due-date">Due date: </label>
+          <input type="date" name="task-due-date" id="task-due-date" />
           <fieldset>
             <legend>Priority:</legend>
             <div>
-              <input type="radio" name="priority" id="high" value="high" />
+              <input type="radio" name="task-priority" id="high" value="high" />
               <label for="high">High</label>
             </div>
             <div>
-              <input type="radio" name="priority" id="medium" value="medium" />
+              <input
+                type="radio"
+                name="task-priority"
+                id="medium"
+                value="medium"
+              />
               <label for="medium">Medium</label>
             </div>
             <div>
-              <input type="radio" name="priority" id="low" value="low" />
+              <input type="radio" name="task-priority" id="low" value="low" />
               <label for="low">Low</label>
             </div>
           </fieldset>
-          <label for="project-selector">Add task to:</label>
-          <select name="project" id="project-selector" required>
+          <label for="task-project-selector">Add task to:</label>
+          <select
+            name="task-project-selector"
+            id="task-project-selector"
+            required
+          >
             <option class="placeholder" value="">Select a project...</option>
             <optgroup label="Projects"></optgroup>
           </select>
-          <button type="submit" class="create-new-task-btn">Add task</button>
+          <button type="submit" class="submit-task-btn">Add task</button>
         </form>
       </div>
     </dialog>

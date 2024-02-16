@@ -67,19 +67,20 @@ export const displayController = (() => {
   };
 
   const setProjectModalMode = () => {
-    document.querySelector(".new-project-dialog .dialog-title").innerText =
+    document.querySelector(".project-dialog .dialog-title").innerText =
       renameProjectMode ? "Rename Project" : "New Project";
-    document.querySelector(".create-new-project-btn").innerText =
-      renameProjectMode ? "Update Project" : "Create Project";
+    document.querySelector(".submit-project-btn").innerText = renameProjectMode
+      ? "Update Project"
+      : "Create Project";
   };
 
   const openRenameProject = (project) => {
     projectToRename = project;
     renameProjectMode = true;
-    document.querySelector("#name").value = project.name;
+    document.querySelector("#project-name").value = project.name;
 
     setProjectModalMode();
-    document.querySelector(".new-project-dialog").showModal();
+    document.querySelector(".project-dialog").showModal();
   };
 
   const createTaskDiv = (task) => {
@@ -123,12 +124,12 @@ export const displayController = (() => {
     basicDiv.appendChild(dueDate);
 
     const viewBtn = document.createElement("button");
-    viewBtn.className = "view-btn";
+    viewBtn.className = "view-task-btn";
     viewBtn.innerText = "View";
     basicDiv.appendChild(viewBtn);
 
     const editBtn = document.createElement("button");
-    editBtn.className = "edit-btn";
+    editBtn.className = "edit-task-btn";
     editBtn.innerText = "Edit";
     basicDiv.appendChild(editBtn);
     editBtn.addEventListener("click", () => {
@@ -167,7 +168,7 @@ export const displayController = (() => {
       else detailsDiv.style.display = "none";
     });
 
-    if (task.priority)
+    if (task.priority != "")
       taskDiv.style.borderColor = `var(--${task.priority}-priority-color)`;
 
     return taskDiv;
@@ -239,7 +240,7 @@ export const displayController = (() => {
 
   const resetProjectSelectorDefault = () => {
     const selectedOption = document.querySelector(
-      ".new-task-dialog form select option[selected]"
+      ".task-dialog form select option[selected]"
     );
 
     if (selectedOption) selectedOption.defaultSelected = false;
@@ -247,13 +248,13 @@ export const displayController = (() => {
 
   const setProjectSelectorDefault = (project) => {
     document.querySelector(
-      `.new-task-dialog form select option[value='${project.name}']`
+      `.task-dialog form select option[value='${project.name}']`
     ).defaultSelected = true;
   };
 
   const updateProjectSelectorOptions = () => {
     const projectSelectorOptions = document.querySelector(
-      ".new-task-dialog form select optgroup"
+      ".task-dialog form select optgroup"
     );
     projectSelectorOptions.innerHTML = "";
     for (let project of appController.projectsList) {
@@ -265,9 +266,9 @@ export const displayController = (() => {
   };
 
   const setTaskModalMode = () => {
-    document.querySelector(".new-task-dialog .dialog-title").innerText =
+    document.querySelector(".task-dialog .dialog-title").innerText =
       editTaskMode ? "Edit Task" : "New Task";
-    document.querySelector(".create-new-task-btn").innerText = editTaskMode
+    document.querySelector(".submit-task-btn").innerText = editTaskMode
       ? "Update Task"
       : "Add Task";
   };
@@ -275,11 +276,11 @@ export const displayController = (() => {
   const openEditTask = (task) => {
     taskToEdit = task;
     editTaskMode = true;
-    document.querySelector("#title").value = task.title;
-    document.querySelector("#description").description = task.description;
+    document.querySelector("#task-title").value = task.title;
+    document.querySelector("#task-description").description = task.description;
 
     if (task.dueDate != "-")
-      document.querySelector("#due-date").value = format(
+      document.querySelector("#task-due-date").value = format(
         task.dueDate,
         "yyyy-MM-dd"
       );
@@ -290,7 +291,7 @@ export const displayController = (() => {
     document.querySelector(`option[value=${task.project.name}`).selected = true;
 
     setTaskModalMode();
-    document.querySelector(".new-task-dialog").showModal();
+    document.querySelector(".task-dialog").showModal();
   };
 
   const initDisplay = () => {
@@ -314,12 +315,12 @@ export const displayController = (() => {
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
       setProjectModalMode();
-      document.querySelector(".new-project-dialog").showModal();
+      document.querySelector(".project-dialog").showModal();
     });
 
-    const newProjectForm = document.querySelector(".new-project-dialog form");
-    newProjectForm.addEventListener("submit", () => {
-      const projectName = document.querySelector("#name").value;
+    const projectForm = document.querySelector(".project-dialog form");
+    projectForm.addEventListener("submit", () => {
+      const projectName = document.querySelector("#project-name").value;
       let project = projectToRename;
 
       if (renameProjectMode) projectToRename.rename(projectName);
@@ -329,27 +330,29 @@ export const displayController = (() => {
       displayProjectsList();
       viewProject(project);
       renameProjectMode = false;
-      newProjectForm.reset();
+      projectForm.reset();
     });
 
     document.querySelector(".new-task-btn").addEventListener("click", () => {
       setTaskModalMode();
-      document.querySelector(".new-task-dialog").showModal();
+      document.querySelector(".task-dialog").showModal();
     });
 
-    const newTaskForm = document.querySelector(".new-task-dialog form");
-    newTaskForm.addEventListener("submit", () => {
-      const title = document.querySelector("#title").value;
-      const description = document.querySelector("#description").value;
-      const dueDate = document.querySelector("#due-date").value;
+    const taskForm = document.querySelector(".task-dialog form");
+    taskForm.addEventListener("submit", () => {
+      const title = document.querySelector("#task-title").value;
+      const description = document.querySelector("#task-description").value;
+      const dueDate = document.querySelector("#task-due-date").value;
 
-      let priority = undefined;
-      if (document.querySelector("input[name='priority']:checked"))
+      let priority = "";
+      if (document.querySelector("input[name='task-priority']:checked"))
         priority = document.querySelector(
-          "input[name='priority']:checked"
+          "input[name='task-priority']:checked"
         ).value;
 
-      const projectSelector = document.querySelector("#project-selector").value;
+      const projectSelector = document.querySelector(
+        "#task-project-selector"
+      ).value;
 
       if (!editTaskMode) {
         appController
@@ -368,7 +371,7 @@ export const displayController = (() => {
       }
 
       updateDisplay();
-      newTaskForm.reset();
+      taskForm.reset();
     });
 
     document.querySelectorAll(".close-btn").forEach((btn) =>

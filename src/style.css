@@ -5,9 +5,9 @@
   --medium-priority-color: #eab30890;
   --low-priority-color: #22c55e90;
 
-  --high-priority-color-opaque: #dc2626;
+  /* --high-priority-color-opaque: #dc2626;
   --medium-priority-color-opaque: #eab308;
-  --low-priority-color-opaque: #22c55e;
+  --low-priority-color-opaque: #22c55e; */
 }
 
 * {
@@ -164,8 +164,8 @@ button.new-project-btn {
   padding-bottom: 0;
 }
 
-.view-btn,
-.edit-btn,
+.view-task-btn,
+.edit-task-btn,
 .delete-task-btn {
   font-size: 16px;
   width: 60px;
