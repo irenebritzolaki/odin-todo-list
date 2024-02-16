@@ -72,9 +72,17 @@ export const displayController = (() => {
     editBtn.className = "edit-btn";
     editBtn.innerText = "Edit";
     basicDiv.appendChild(editBtn);
-
     editBtn.addEventListener("click", () => {
       openEditTask(task);
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-task-btn";
+    deleteBtn.innerText = "Delete";
+    basicDiv.appendChild(deleteBtn);
+    deleteBtn.addEventListener("click", () => {
+      task.project.deleteTask(task);
+      // and then updateDisplay
     });
 
     taskDiv.appendChild(basicDiv);
