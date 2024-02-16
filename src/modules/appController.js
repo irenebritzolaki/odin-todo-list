@@ -14,6 +14,8 @@ export const appController = (() => {
   const addNewProject = (projectName) => {
     const project = new Project(projectName);
     projectsList.push(project);
+
+    return project;
   };
 
   const deleteProject = (project) => {

@@ -42,8 +42,8 @@ export const displayController = (() => {
       renameProjectBtn.className = "rename-project-btn";
       renameProjectBtn.innerText = "R";
       buttonsDiv.appendChild(renameProjectBtn);
-      renameProjectBtn.addEventListener("click", () => {
-        console.log("rename");
+      renameProjectBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
         openRenameProject(project);
       });
 
@@ -51,10 +51,13 @@ export const displayController = (() => {
       deleteProjectBtn.className = "delete-project-btn";
       deleteProjectBtn.innerText = "D";
       buttonsDiv.appendChild(deleteProjectBtn);
-      deleteProjectBtn.addEventListener("click", () => {
+      deleteProjectBtn.addEventListener("click", (e) => {
         // todo show modal for confirming delete
+        e.stopPropagation();
         appController.deleteProject(project);
+        updateProjectSelectorOptions();
         displayProjectsList();
+        if (viewMode === PROJECT_MODE && project === activeProject) viewAll();
       });
 
       projectItem.appendChild(buttonsDiv);
@@ -316,12 +319,14 @@ export const displayController = (() => {
     const newProjectForm = document.querySelector(".new-project-dialog form");
     newProjectForm.addEventListener("submit", () => {
       const projectName = document.querySelector("#name").value;
+      let project = projectToRename;
 
       if (renameProjectMode) projectToRename.rename(projectName);
-      else appController.addNewProject(projectName);
+      else project = appController.addNewProject(projectName);
 
       updateProjectSelectorOptions();
       displayProjectsList();
+      viewProject(project);
       renameProjectMode = false;
       newProjectForm.reset();
     });
