@@ -1,5 +1,5 @@
-import { projectsController } from "./projects";
 import { isToday, isTomorrow, isYesterday, format } from "date-fns";
+import { appController } from "./appController";
 
 export const displayController = (() => {
   const ALL_MODE = 0;
@@ -17,7 +17,7 @@ export const displayController = (() => {
     const projectsListDiv = document.querySelector(".projects-list");
     projectsListDiv.innerHTML = "";
 
-    for (let project of projectsController.projectsList) {
+    for (let project of appController.projectsList) {
       const projectItem = document.createElement("div");
       projectItem.innerText = project.name;
       projectItem.className = "project tab";
@@ -120,7 +120,7 @@ export const displayController = (() => {
 
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "All Tasks";
-    displayTasks(projectsController.getAllTasks());
+    displayTasks(appController.getAllTasks());
   };
 
   const viewTodayTasks = () => {
@@ -129,7 +129,7 @@ export const displayController = (() => {
 
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "Today";
-    displayTasks(projectsController.getTodayTasks());
+    displayTasks(appController.getTodayTasks());
     // todo default date today on form
   };
 
@@ -139,7 +139,7 @@ export const displayController = (() => {
 
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = "Next 7 Days";
-    displayTasks(projectsController.getNext7DaysTasks());
+    displayTasks(appController.getNext7DaysTasks());
   };
 
   const viewProject = (project) => {
@@ -171,7 +171,7 @@ export const displayController = (() => {
       ".new-task-dialog form select optgroup"
     );
     projectSelectorOptions.innerHTML = "";
-    for (let project of projectsController.projectsList) {
+    for (let project of appController.projectsList) {
       const newOption = document.createElement("option");
       newOption.value = project.name;
       newOption.innerText = project.name;
@@ -235,7 +235,7 @@ export const displayController = (() => {
     const newProjectForm = document.querySelector(".new-project-dialog form");
     newProjectForm.addEventListener("submit", () => {
       const projectName = document.querySelector("#name").value;
-      projectsController.addNewProject(projectName);
+      appController.addNewProject(projectName);
       updateProjectSelectorOptions();
       displayProjectsList();
       newProjectForm.reset();
@@ -261,7 +261,7 @@ export const displayController = (() => {
       const projectSelector = document.querySelector("#project-selector").value;
 
       if (!editTaskMode) {
-        projectsController
+        appController
           .getProjectByName(projectSelector)
           .addNewTask(title, description, dueDate, priority);
       } else {
@@ -269,7 +269,7 @@ export const displayController = (() => {
           taskToEdit.update(title, description, dueDate, priority);
         } else {
           taskToEdit.project.deleteTask(taskToEdit.title);
-          projectsController
+          appController
             .getProjectByName(projectSelector)
             .addNewTask(title, description, dueDate, priority);
         }
@@ -279,13 +279,13 @@ export const displayController = (() => {
       let tasks;
       switch (viewMode) {
         case ALL_MODE:
-          tasks = projectsController.getAllTasks();
+          tasks = appController.getAllTasks();
           break;
         case TODAY_MODE:
-          tasks = projectsController.getTodayTasks();
+          tasks = appController.getTodayTasks();
           break;
         case NEXT7DAYS_MODE:
-          tasks = projectsController.getNext7DaysTasks();
+          tasks = appController.getNext7DaysTasks();
           break;
         case PROJECT_MODE:
           tasks = activeProject.tasks;
