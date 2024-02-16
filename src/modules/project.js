@@ -16,6 +16,6 @@ export class Project {
     for (let i = 0; i < this.tasks.length; i++) {
       if (this.tasks[i] === task) index = i;
     }
-    this.tasks = this.tasks.splice(index, 1);
+    this.tasks.splice(index, 1);
   }
 }

@@ -268,7 +268,7 @@ export const displayController = (() => {
         if (taskToEdit.project.name === projectSelector) {
           taskToEdit.update(title, description, dueDate, priority);
         } else {
-          taskToEdit.project.deleteTask(taskToEdit.title);
+          taskToEdit.project.deleteTask(taskToEdit);
           appController
             .getProjectByName(projectSelector)
             .addNewTask(title, description, dueDate, priority);
