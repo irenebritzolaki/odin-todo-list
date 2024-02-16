@@ -19,8 +19,32 @@ export const displayController = (() => {
 
     for (let project of appController.projectsList) {
       const projectItem = document.createElement("div");
-      projectItem.innerText = project.name;
       projectItem.className = "project tab";
+
+      const projectName = document.createElement("p");
+      projectName.innerText = project.name;
+      projectItem.appendChild(projectName);
+
+      const buttonsDiv = document.createElement("div");
+      buttonsDiv.className = "buttons-div";
+
+      const renameProjectBtn = document.createElement("button");
+      renameProjectBtn.className = "rename-project-btn";
+      renameProjectBtn.innerText = "R";
+      buttonsDiv.appendChild(renameProjectBtn);
+      renameProjectBtn.addEventListener("click", () => {
+        console.log("rename");
+      });
+
+      const deleteProjectBtn = document.createElement("button");
+      deleteProjectBtn.className = "delete-project-btn";
+      deleteProjectBtn.innerText = "D";
+      buttonsDiv.appendChild(deleteProjectBtn);
+      deleteProjectBtn.addEventListener("click", () => {
+        console.log("delete");
+      });
+
+      projectItem.appendChild(buttonsDiv);
       projectItem.addEventListener("click", () => viewProject(project));
       projectsListDiv.appendChild(projectItem);
     }

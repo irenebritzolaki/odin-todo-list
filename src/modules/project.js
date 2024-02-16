@@ -6,6 +6,10 @@ export class Project {
     this.tasks = [];
   }
 
+  rename(name) {
+    this.name = name;
+  }
+
   addNewTask(title, description, dueDate, priority) {
     const task = new Task(title, description, dueDate, priority, this);
     this.tasks.push(task);

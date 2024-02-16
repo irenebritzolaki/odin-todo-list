@@ -75,11 +75,29 @@ button.new-project-btn {
 .project {
   padding: 10px 0px;
   margin-left: 15px;
+
+  display: flex;
+  justify-content: space-between;
 }
 
-.tab:hover::after {
-  content: " >>";
+.buttons-div {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
 }
+
+.buttons-div button {
+  width: 20px;
+}
+
+/* .tab:hover::after {
+  content: " >>";
+} */
+
+.tab:hover {
+  color: #0c4a6e;
+}
+
 /* ----------------------- */
 
 .content {
