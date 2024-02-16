@@ -82,7 +82,7 @@ export const displayController = (() => {
     basicDiv.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", () => {
       task.project.deleteTask(task);
-      // and then updateDisplay
+      updateDisplay();
     });
 
     taskDiv.appendChild(basicDiv);
@@ -158,6 +158,24 @@ export const displayController = (() => {
     const projectNameDiv = document.querySelector(".project-name");
     projectNameDiv.innerText = project.name;
     displayTasks(project.tasks);
+  };
+
+  const updateDisplay = () => {
+    let tasks;
+    switch (viewMode) {
+      case ALL_MODE:
+        tasks = appController.getAllTasks();
+        break;
+      case TODAY_MODE:
+        tasks = appController.getTodayTasks();
+        break;
+      case NEXT7DAYS_MODE:
+        tasks = appController.getNext7DaysTasks();
+        break;
+      case PROJECT_MODE:
+        tasks = activeProject.tasks;
+    }
+    displayTasks(tasks);
   };
 
   const resetProjectSelectorDefault = () => {
@@ -284,21 +302,7 @@ export const displayController = (() => {
         editTaskMode = false;
       }
 
-      let tasks;
-      switch (viewMode) {
-        case ALL_MODE:
-          tasks = appController.getAllTasks();
-          break;
-        case TODAY_MODE:
-          tasks = appController.getTodayTasks();
-          break;
-        case NEXT7DAYS_MODE:
-          tasks = appController.getNext7DaysTasks();
-          break;
-        case PROJECT_MODE:
-          tasks = activeProject.tasks;
-      }
-      displayTasks(tasks);
+      updateDisplay();
       newTaskForm.reset();
     });
 
