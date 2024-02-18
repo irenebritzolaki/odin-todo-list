@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
   --high-priority-color: #dc262690;
@@ -23,7 +24,12 @@ button {
 
 body {
   height: 100vh;
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Inter Tight", sans-serif;
+}
+
+.logo {
+  font-weight: 600;
 }
 
 header {
@@ -39,60 +45,83 @@ header {
   grid-template-columns: 1fr 5fr;
 }
 
-.left-panel {
-  padding: 20px;
-  background-color: #e0f2fe;
+.left-panel,
+.main-tabs,
+.projects-list-container,
+.projects-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-.left-panel .top {
-  display: flex;
+.left-panel {
+  padding: 30px 20px;
+  background-color: #e0f2fe;
   justify-content: space-between;
-  align-items: center;
+}
+
+.main-tabs,
+.projects-list-container,
+.projects-list {
+  gap: 15px;
 }
 
 .tab {
   cursor: pointer;
+  font-size: 22px;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  /* display: block; */
+}
+
+.projects-list-container .top {
+  padding: 5px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.left-panel .top h2 {
+  font-weight: 600;
 }
 
 button.new-project-btn {
-  background-color: unset;
   border: 1px solid black;
   border-radius: 50%;
   font-size: 24px;
   width: 30px;
   height: 30px;
+
+  background-color: unset;
+  outline: unset;
+  border: none;
+  font-size: 28px;
 }
 
-.projects-list {
-  margin-top: 5px;
-  padding: 5px;
-  font-size: 20px;
+button.new-project-btn:hover {
+  background-color: #0c4a6e;
+  color: white;
 }
 
-.project {
-  padding: 10px 0px;
-  margin-left: 15px;
-
-  display: flex;
-  justify-content: space-between;
-}
-
+.project,
 .buttons-div {
   display: flex;
   justify-content: space-between;
+}
+
+.project {
+  padding: 10px;
+}
+
+.buttons-div {
   gap: 5px;
 }
 
 .buttons-div button {
   width: 20px;
 }
-
-/* .tab:hover::after {
-  content: " >>";
-} */
 
 .tab:hover {
   color: #0c4a6e;
