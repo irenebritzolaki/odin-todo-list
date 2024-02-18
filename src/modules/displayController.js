@@ -134,7 +134,10 @@ export const displayController = (() => {
     editBtn.innerText = "Edit";
     basicDiv.appendChild(editBtn);
     editBtn.addEventListener("click", () => {
-      openEditTask(task);
+      setTaskModalMode("edit");
+      taskToEdit = task;
+      loadTaskForm(task);
+      document.querySelector(".task-dialog").showModal();
     });
 
     const deleteBtn = document.createElement("button");
@@ -266,17 +269,20 @@ export const displayController = (() => {
     }
   };
 
-  const setTaskModalMode = () => {
-    document.querySelector(".task-dialog .dialog-title").innerText =
-      editTaskMode ? "Edit Task" : "New Task";
-    document.querySelector(".submit-task-btn").innerText = editTaskMode
-      ? "Update Task"
-      : "Add Task";
+  const setTaskModalMode = (mode) => {
+    if (mode === "new") {
+      document.querySelector(".task-dialog .dialog-title").innerText =
+        "New Task";
+      document.querySelector(".submit-task-btn").innerText = "Add Task";
+    } else {
+      document.querySelector(".task-dialog .dialog-title").innerText =
+        "Edit Task";
+      document.querySelector(".submit-task-btn").innerText = "Edit Task";
+    }
   };
 
-  const openEditTask = (task) => {
-    taskToEdit = task;
-    editTaskMode = true;
+  const loadTaskForm = (task) => {
+    document.querySelector("#task-key").value = task.title; // temporary solution
     document.querySelector("#task-title").value = task.title;
     document.querySelector("#task-description").description = task.description;
 
@@ -290,9 +296,6 @@ export const displayController = (() => {
       document.querySelector(`#${task.priority}`).checked = true;
 
     document.querySelector(`option[value=${task.project.name}`).selected = true;
-
-    setTaskModalMode();
-    document.querySelector(".task-dialog").showModal();
   };
 
   const initDisplay = () => {
@@ -340,12 +343,13 @@ export const displayController = (() => {
     });
 
     document.querySelector(".new-task-btn").addEventListener("click", () => {
-      setTaskModalMode();
+      setTaskModalMode("new");
       document.querySelector(".task-dialog").showModal();
     });
 
     const taskForm = document.querySelector(".task-dialog form");
     taskForm.addEventListener("submit", () => {
+      const taskKey = document.querySelector("#task-key").value;
       const title = document.querySelector("#task-title").value;
       const description = document.querySelector("#task-description").value;
       const dueDate = document.querySelector("#task-due-date").value;
@@ -360,11 +364,8 @@ export const displayController = (() => {
         "#task-project-selector"
       ).value;
 
-      if (!editTaskMode) {
-        appController
-          .getProjectByName(projectSelector)
-          .addNewTask(title, description, dueDate, priority);
-      } else {
+      if (taskKey !== "") {
+        // todo
         if (taskToEdit.project.name === projectSelector) {
           taskToEdit.update(title, description, dueDate, priority);
         } else {
@@ -373,7 +374,10 @@ export const displayController = (() => {
             .getProjectByName(projectSelector)
             .addNewTask(title, description, dueDate, priority);
         }
-        editTaskMode = false;
+      } else {
+        appController
+          .getProjectByName(projectSelector)
+          .addNewTask(title, description, dueDate, priority);
       }
 
       updateDisplay();
