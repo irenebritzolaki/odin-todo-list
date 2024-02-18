@@ -89,7 +89,9 @@ export const displayController = (() => {
     const projectBtn = document.createElement("button");
     projectBtn.innerText = task.project.name;
     projectBtn.className = "go-to-project";
-    projectBtn.addEventListener("click", () => showPage(PROJECT_MODE, project));
+    projectBtn.addEventListener("click", () =>
+      showPage(PROJECT_MODE, task.project)
+    );
     if (viewMode === PROJECT_MODE) projectBtn.style.visibility = "hidden";
 
     basicDiv.appendChild(projectBtn);
