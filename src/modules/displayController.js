@@ -20,9 +20,6 @@ export const displayController = (() => {
   let editTaskMode = false;
   let taskToEdit = undefined;
 
-  let renameProjectMode = false;
-  let projectToRename = undefined;
-
   const displayProjectsList = () => {
     const projectsListDiv = document.querySelector(".projects-list");
     projectsListDiv.innerHTML = "";
@@ -44,7 +41,9 @@ export const displayController = (() => {
       buttonsDiv.appendChild(renameProjectBtn);
       renameProjectBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        openRenameProject(project);
+        setProjectModalMode("edit");
+        loadProjectForm(project);
+        document.querySelector(".project-dialog").showModal();
       });
 
       const deleteProjectBtn = document.createElement("button");
@@ -66,21 +65,23 @@ export const displayController = (() => {
     }
   };
 
-  const setProjectModalMode = () => {
-    document.querySelector(".project-dialog .dialog-title").innerText =
-      renameProjectMode ? "Rename Project" : "New Project";
-    document.querySelector(".submit-project-btn").innerText = renameProjectMode
-      ? "Update Project"
-      : "Create Project";
+  const loadProjectForm = (project) => {
+    document.querySelector("#project-key").value = project.name;
+    document.querySelector("#project-name").value = project.name;
   };
 
-  const openRenameProject = (project) => {
-    projectToRename = project;
-    renameProjectMode = true;
-    document.querySelector("#project-name").value = project.name;
-
-    setProjectModalMode();
-    document.querySelector(".project-dialog").showModal();
+  const setProjectModalMode = (mode) => {
+    if (mode === "new") {
+      document.querySelector(".project-dialog .dialog-title").innerText =
+        "New Project";
+      document.querySelector(".submit-project-btn").innerText =
+        "Create Project";
+    } else {
+      document.querySelector(".project-dialog .dialog-title").innerText =
+        "Rename Project";
+      document.querySelector(".submit-project-btn").innerText =
+        "Update Project";
+    }
   };
 
   const createTaskDiv = (task) => {
@@ -314,22 +315,27 @@ export const displayController = (() => {
       .addEventListener("click", viewNext7DaysTasks);
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
-      setProjectModalMode();
+      setProjectModalMode("new");
       document.querySelector(".project-dialog").showModal();
     });
 
     const projectForm = document.querySelector(".project-dialog form");
     projectForm.addEventListener("submit", () => {
+      const projectKey = document.querySelector("#project-key").value;
       const projectName = document.querySelector("#project-name").value;
-      let project = projectToRename;
 
-      if (renameProjectMode) projectToRename.rename(projectName);
-      else project = appController.addNewProject(projectName);
+      let project;
+
+      if (projectKey !== "") {
+        project = appController.getProjectByName(projectKey);
+        project.rename(projectName);
+      } else {
+        project = appController.addNewProject(projectName);
+      }
 
       updateProjectSelectorOptions();
       displayProjectsList();
       viewProject(project);
-      renameProjectMode = false;
       projectForm.reset();
     });
 
