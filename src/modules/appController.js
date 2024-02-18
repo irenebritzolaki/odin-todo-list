@@ -14,7 +14,7 @@ export const appController = (() => {
   const addNewProject = (projectName) => {
     const project = new Project(projectName);
     projectsList.push(project);
-
+    updateLocalStorage();
     return project;
   };
 
@@ -24,6 +24,7 @@ export const appController = (() => {
       if (projectsList[i] === project) index = i;
     }
     projectsList.splice(index, 1);
+    updateLocalStorage();
   };
 
   // will use ids later due to name-conflicts
@@ -65,28 +66,52 @@ export const appController = (() => {
     return tasks;
   };
 
-  const loadProjectsJSON = (projectsJSON) => {
-    for (let project of projectsJSON) {
+  /* ??? when i'll use projectKey and taskKey i may not need these 2 functions, cause i'll use id/name 
+  in task.project and not the whole project object. So i'll just update projectsList */
+  const loadProjects = (projectsToLoad) => {
+    for (let project of projectsToLoad) {
       let newProjectObject = addNewProject(project.name);
       for (let task of project.tasks) {
         newProjectObject.addNewTask(
           task.title,
           task.description,
           task.dueDate,
-          task.priority
+          task.priority,
+          task.completed
         );
       }
     }
   };
 
+  const updateLocalStorage = () => {
+    let dataJSON = [];
+    for (let project of projectsList) {
+      let projectJSON = { name: project.name, tasks: [] };
+      for (let task of project.tasks) {
+        let taskJSON = {
+          title: task.title,
+          description: task.description,
+          dueDate: task.dueDate,
+          priority: task.priority,
+          completed: task.completed,
+        };
+        projectJSON.tasks.push(taskJSON);
+      }
+      dataJSON.push(projectJSON);
+    }
+
+    localStorage.setItem("projects", JSON.stringify(dataJSON));
+  };
+
   return {
     projectsList,
-    loadProjectsJSON,
+    loadProjects,
     addNewProject,
     deleteProject,
     getProjectByName,
     getTodayTasks,
     getAllTasks,
     getNext7DaysTasks,
+    updateLocalStorage,
   };
 })();

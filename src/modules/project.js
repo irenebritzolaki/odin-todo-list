@@ -1,3 +1,4 @@
+import { appController } from "./appController";
 import { Task } from "./task";
 
 export class Project {
@@ -8,11 +9,20 @@ export class Project {
 
   rename(name) {
     this.name = name;
+    appController.updateLocalStorage();
   }
 
-  addNewTask(title, description, dueDate, priority) {
-    const task = new Task(title, description, dueDate, priority, this);
+  addNewTask(title, description, dueDate, priority, completed) {
+    const task = new Task(
+      title,
+      description,
+      dueDate,
+      priority,
+      this,
+      completed
+    );
     this.tasks.push(task);
+    appController.updateLocalStorage();
   }
 
   deleteTask(task) {
@@ -21,5 +31,6 @@ export class Project {
       if (this.tasks[i] === task) index = i;
     }
     this.tasks.splice(index, 1);
+    appController.updateLocalStorage();
   }
 }

@@ -12,7 +12,8 @@
         "title": "Go shopping",
         "description": "Need: sneakers, tote bag",
         "dueDate": "",
-        "priority": "low"
+        "priority": "low",
+        "completed": "true"
       },
       {
         "title": "Go to the dentist",
@@ -41,7 +42,8 @@
         "title": "Fix bug #5588",
         "description": "",
         "dueDate": "02-19-2024",
-        "priority": "high"
+        "priority": "high",
+        "completed": "true"
       },
       {
         "title": "Read lesson X",
