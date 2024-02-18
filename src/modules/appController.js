@@ -65,8 +65,23 @@ export const appController = (() => {
     return tasks;
   };
 
+  const loadProjectsJSON = (projectsJSON) => {
+    for (let project of projectsJSON) {
+      let newProjectObject = addNewProject(project.name);
+      for (let task of project.tasks) {
+        newProjectObject.addNewTask(
+          task.title,
+          task.description,
+          task.dueDate,
+          task.priority
+        );
+      }
+    }
+  };
+
   return {
     projectsList,
+    loadProjectsJSON,
     addNewProject,
     deleteProject,
     getProjectByName,

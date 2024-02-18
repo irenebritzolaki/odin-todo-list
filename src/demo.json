@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Personal",
+    "tasks": [
+      {
+        "title": "Prepare lunch",
+        "description": "",
+        "dueDate": "",
+        "priority": "medium"
+      },
+      {
+        "title": "Go shopping",
+        "description": "Need: sneakers, tote bag",
+        "dueDate": "",
+        "priority": "low"
+      },
+      {
+        "title": "Go to the dentist",
+        "description": "Location: P. Sherman 42 Wallaby Way. Tel: 123456789",
+        "dueDate": "02-20-2024",
+        "priority": "high"
+      },
+      {
+        "title": "Take a shower",
+        "description": "Lalala",
+        "dueDate": "02-19-2024",
+        "priority": ""
+      }
+    ]
+  },
+  {
+    "name": "Work",
+    "tasks": [
+      {
+        "title": "Fix bug #7677",
+        "description": "",
+        "dueDate": "02-18-2024",
+        "priority": "high"
+      },
+      {
+        "title": "Fix bug #5588",
+        "description": "",
+        "dueDate": "02-19-2024",
+        "priority": "high"
+      },
+      {
+        "title": "Read lesson X",
+        "description": "www.example.com/lesson-X",
+        "dueDate": "",
+        "priority": "medium"
+      }
+    ]
+  },
+  {
+    "name": "Gym",
+    "tasks": [
+      {
+        "title": "Workout",
+        "description": "",
+        "dueDate": "02-19-2024",
+        "priority": "high"
+      }
+    ]
+  }
+]
