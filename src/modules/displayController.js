@@ -14,10 +14,8 @@ export const displayController = (() => {
   const NEXT7DAYS_MODE = 2;
   const PROJECT_MODE = 3;
 
-  let activeProject = undefined;
   let viewMode = ALL_MODE;
-
-  let editTaskMode = false;
+  let activeProject = undefined;
   let taskToEdit = undefined;
 
   const displayProjectsList = () => {
@@ -56,31 +54,16 @@ export const displayController = (() => {
         appController.deleteProject(project);
         updateProjectSelectorOptions();
         displayProjectsList();
-        if (viewMode === PROJECT_MODE && project === activeProject) viewAll();
+
+        if (viewMode === PROJECT_MODE && project === activeProject)
+          showPage(ALL_MODE);
       });
 
       projectItem.appendChild(buttonsDiv);
-      projectItem.addEventListener("click", () => viewProject(project));
+      projectItem.addEventListener("click", () =>
+        showPage(PROJECT_MODE, project)
+      );
       projectsListDiv.appendChild(projectItem);
-    }
-  };
-
-  const loadProjectForm = (project) => {
-    document.querySelector("#project-key").value = project.name;
-    document.querySelector("#project-name").value = project.name;
-  };
-
-  const setProjectModalMode = (mode) => {
-    if (mode === "new") {
-      document.querySelector(".project-dialog .dialog-title").innerText =
-        "New Project";
-      document.querySelector(".submit-project-btn").innerText =
-        "Create Project";
-    } else {
-      document.querySelector(".project-dialog .dialog-title").innerText =
-        "Rename Project";
-      document.querySelector(".submit-project-btn").innerText =
-        "Update Project";
     }
   };
 
@@ -106,7 +89,7 @@ export const displayController = (() => {
     const projectBtn = document.createElement("button");
     projectBtn.innerText = task.project.name;
     projectBtn.className = "go-to-project";
-    projectBtn.addEventListener("click", () => viewProject(task.project));
+    projectBtn.addEventListener("click", () => showPage(PROJECT_MODE, project));
     if (viewMode === PROJECT_MODE) projectBtn.style.visibility = "hidden";
 
     basicDiv.appendChild(projectBtn);
@@ -186,45 +169,24 @@ export const displayController = (() => {
     }
   };
 
-  const viewAll = () => {
-    viewMode = ALL_MODE;
-    resetProjectSelectorDefault();
-
-    const projectNameDiv = document.querySelector(".project-name");
-    projectNameDiv.innerText = "All Tasks";
-    displayTasks(appController.getAllTasks());
+  const updateContentTitle = () => {
+    const contentTitleDiv = document.querySelector(".content-title");
+    switch (viewMode) {
+      case ALL_MODE:
+        contentTitleDiv.innerText = "All tasks";
+        break;
+      case TODAY_MODE:
+        contentTitleDiv.innerText = "Today";
+        break;
+      case NEXT7DAYS_MODE:
+        contentTitleDiv.innerText = "Next 7 days";
+        break;
+      case PROJECT_MODE:
+        contentTitleDiv.innerText = activeProject.name;
+    }
   };
 
-  const viewTodayTasks = () => {
-    viewMode = TODAY_MODE;
-    resetProjectSelectorDefault();
-
-    const projectNameDiv = document.querySelector(".project-name");
-    projectNameDiv.innerText = "Today";
-    displayTasks(appController.getTodayTasks());
-    // todo default date today on form
-  };
-
-  const viewNext7DaysTasks = () => {
-    viewMode = NEXT7DAYS_MODE;
-    resetProjectSelectorDefault();
-
-    const projectNameDiv = document.querySelector(".project-name");
-    projectNameDiv.innerText = "Next 7 Days";
-    displayTasks(appController.getNext7DaysTasks());
-  };
-
-  const viewProject = (project) => {
-    viewMode = PROJECT_MODE;
-    activeProject = project;
-    setProjectSelectorDefault(project);
-
-    const projectNameDiv = document.querySelector(".project-name");
-    projectNameDiv.innerText = project.name;
-    displayTasks(project.tasks);
-  };
-
-  const updateDisplay = () => {
+  const renderContent = () => {
     let tasks;
     switch (viewMode) {
       case ALL_MODE:
@@ -240,6 +202,18 @@ export const displayController = (() => {
         tasks = activeProject.tasks;
     }
     displayTasks(tasks);
+  };
+
+  const showPage = (mode, project) => {
+    viewMode = mode;
+    activeProject = project;
+
+    if (mode != PROJECT_MODE) resetProjectSelectorDefault();
+    else setProjectSelectorDefault(project);
+    // todo: if todays tasks, set today as default date
+
+    updateContentTitle();
+    renderContent();
   };
 
   const resetProjectSelectorDefault = () => {
@@ -267,6 +241,25 @@ export const displayController = (() => {
       newOption.innerText = project.name;
       projectSelectorOptions.appendChild(newOption);
     }
+  };
+
+  const setProjectModalMode = (mode) => {
+    if (mode === "new") {
+      document.querySelector(".project-dialog .dialog-title").innerText =
+        "New Project";
+      document.querySelector(".submit-project-btn").innerText =
+        "Create Project";
+    } else {
+      document.querySelector(".project-dialog .dialog-title").innerText =
+        "Rename Project";
+      document.querySelector(".submit-project-btn").innerText =
+        "Update Project";
+    }
+  };
+
+  const loadProjectForm = (project) => {
+    document.querySelector("#project-key").value = project.name;
+    document.querySelector("#project-name").value = project.name;
   };
 
   const setTaskModalMode = (mode) => {
@@ -301,21 +294,27 @@ export const displayController = (() => {
   const initDisplay = () => {
     displayProjectsList();
     updateProjectSelectorOptions();
-    viewAll();
+    showPage(ALL_MODE);
   };
 
   const addEventListeners = () => {
     document
       .querySelector(".left-panel .all-tasks")
-      .addEventListener("click", viewAll);
+      .addEventListener("click", () => {
+        showPage(ALL_MODE);
+      });
 
     document
       .querySelector(".left-panel .today-tasks")
-      .addEventListener("click", viewTodayTasks);
+      .addEventListener("click", () => {
+        showPage(TODAY_MODE);
+      });
 
     document
       .querySelector(".left-panel .next7days-tasks")
-      .addEventListener("click", viewNext7DaysTasks);
+      .addEventListener("click", () => {
+        showPage(NEXT7DAYS_MODE);
+      });
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
       setProjectModalMode("new");
@@ -338,7 +337,7 @@ export const displayController = (() => {
 
       updateProjectSelectorOptions();
       displayProjectsList();
-      viewProject(project);
+      showPage(PROJECT_MODE, project);
       projectForm.reset();
     });
 
@@ -380,7 +379,7 @@ export const displayController = (() => {
           .addNewTask(title, description, dueDate, priority);
       }
 
-      updateDisplay();
+      renderContent();
       taskForm.reset();
     });
 
@@ -388,8 +387,6 @@ export const displayController = (() => {
       btn.addEventListener("click", (event) => {
         event.target.offsetParent.getElementsByTagName("form")[0].reset(); // event.target.offsetParent refers to dialog (new-project-dialog or new-task-dialog)
         event.target.offsetParent.close();
-        editTaskMode = false;
-        renameProjectMode = false;
       })
     );
   };
