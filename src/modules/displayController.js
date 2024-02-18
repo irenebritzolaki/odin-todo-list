@@ -53,10 +53,10 @@ export const displayController = (() => {
         e.stopPropagation();
         appController.deleteProject(project);
         updateProjectSelectorOptions();
-        displayProjectsList();
+        projectItem.remove();
 
-        if (viewMode === PROJECT_MODE && project === activeProject)
-          showPage(ALL_MODE);
+        if (viewMode != PROJECT_MODE) renderContent();
+        else if (project === activeProject) showPage(ALL_MODE);
       });
 
       projectItem.appendChild(buttonsDiv);
