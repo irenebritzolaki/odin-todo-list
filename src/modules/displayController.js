@@ -129,7 +129,7 @@ export const displayController = (() => {
     basicDiv.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", () => {
       task.project.deleteTask(task);
-      updateDisplay();
+      taskDiv.remove();
     });
 
     taskDiv.appendChild(basicDiv);
@@ -291,7 +291,7 @@ export const displayController = (() => {
     document.querySelector(`option[value=${task.project.name}`).selected = true;
   };
 
-  const initDisplay = () => {
+  const initializeDisplay = () => {
     displayProjectsList();
     updateProjectSelectorOptions();
     showPage(ALL_MODE);
@@ -337,7 +337,11 @@ export const displayController = (() => {
 
       updateProjectSelectorOptions();
       displayProjectsList();
-      showPage(PROJECT_MODE, project);
+
+      if (viewMode === PROJECT_MODE && activeProject === project)
+        updateContentTitle();
+      else showPage(PROJECT_MODE, project);
+
       projectForm.reset();
     });
 
@@ -393,5 +397,5 @@ export const displayController = (() => {
 
   addEventListeners();
 
-  return { initDisplay };
+  return { initializeDisplay };
 })();

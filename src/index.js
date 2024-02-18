@@ -52,4 +52,4 @@ appController.projectsList[2].addNewTask("Workout", "", "02-13-2024", "high");
 appController.addNewProject("Zavarakatranemia");
 appController.projectsList[3].addNewTask("Okkkkkkkkkkkkkkkkkkkkk", "", "", "");
 
-displayController.initDisplay();
+displayController.initializeDisplay();
