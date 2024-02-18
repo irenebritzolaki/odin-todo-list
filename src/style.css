@@ -6,6 +6,9 @@
   --medium-priority-color: #eab30890;
   --low-priority-color: #22c55e90;
 
+  --purple: rgba(127, 110, 221, 1);
+  --pink: rgba(255, 118, 146, 1);
+
   /* --high-priority-color-opaque: #dc2626;
   --medium-priority-color-opaque: #eab308;
   --low-priority-color-opaque: #22c55e; */
@@ -34,9 +37,9 @@ body {
 
 header {
   padding: 10px 20px;
-  background-color: #0c4a6e;
-  color: white;
   height: 6%;
+  color: white;
+  background: linear-gradient(22deg, var(--purple) 0%, var(--pink) 100%);
 }
 
 .main {
@@ -55,7 +58,7 @@ header {
 
 .left-panel {
   padding: 30px 20px;
-  background-color: #e0f2fe;
+  background-color: #eeeeee;
   justify-content: space-between;
 }
 
@@ -68,11 +71,10 @@ header {
 .tab {
   cursor: pointer;
   font-size: 22px;
-  /* border: 1px solid black; */
+  border: 1px solid white;
   border-radius: 5px;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  /* display: block; */
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .projects-list-container .top {
@@ -101,8 +103,8 @@ button.new-project-btn {
 }
 
 button.new-project-btn:hover {
-  background-color: #0c4a6e;
-  color: white;
+  background-color: var(--purple);
+  background-color: white;
 }
 
 .project,
@@ -123,8 +125,10 @@ button.new-project-btn:hover {
   width: 20px;
 }
 
-.tab:hover {
-  color: #0c4a6e;
+.tab:hover,
+.tab.active {
+  color: white;
+  background-color: var(--purple);
 }
 
 /* ----------------------- */
