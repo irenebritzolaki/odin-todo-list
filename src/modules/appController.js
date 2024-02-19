@@ -51,7 +51,7 @@ export const appController = (() => {
     return todayTasks;
   };
 
-  const getNext7DaysTasks = () => {
+  const getUpcomingTasks = () => {
     let tasks = [];
     for (let project of projectsList) {
       for (let task of project.tasks) {
@@ -111,7 +111,7 @@ export const appController = (() => {
     getProjectByName,
     getTodayTasks,
     getAllTasks,
-    getNext7DaysTasks,
+    getUpcomingTasks,
     updateLocalStorage,
   };
 })();

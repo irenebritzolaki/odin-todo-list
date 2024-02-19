@@ -11,7 +11,7 @@ import { appController } from "./appController";
 export const displayController = (() => {
   const ALL_MODE = 0;
   const TODAY_MODE = 1;
-  const NEXT7DAYS_MODE = 2;
+  const UPCOMING_MODE = 2;
   const PROJECT_MODE = 3;
 
   let viewMode = ALL_MODE;
@@ -92,9 +92,10 @@ export const displayController = (() => {
     const projectBtn = document.createElement("button");
     projectBtn.innerText = task.project.name;
     projectBtn.className = "go-to-project";
-    projectBtn.addEventListener("click", () =>
-      showPage(PROJECT_MODE, task.project)
-    );
+    projectBtn.addEventListener("click", () => {
+      // todo activate tab
+      showPage(PROJECT_MODE, task.project);
+    });
     if (viewMode === PROJECT_MODE) projectBtn.style.visibility = "hidden";
 
     basicDiv.appendChild(projectBtn);
@@ -191,9 +192,9 @@ export const displayController = (() => {
         icon.innerText = "today";
         contentTitleDiv.innerText = "Today";
         break;
-      case NEXT7DAYS_MODE:
+      case UPCOMING_MODE:
         icon.innerText = "date_range";
-        contentTitleDiv.innerText = "Next 7 days";
+        contentTitleDiv.innerText = "Upcoming";
         break;
       case PROJECT_MODE:
         icon.innerText = "";
@@ -210,8 +211,8 @@ export const displayController = (() => {
       case TODAY_MODE:
         tasks = appController.getTodayTasks();
         break;
-      case NEXT7DAYS_MODE:
-        tasks = appController.getNext7DaysTasks();
+      case UPCOMING_MODE:
+        tasks = appController.getUpcomingTasks();
         break;
       case PROJECT_MODE:
         tasks = activeProject.tasks;
@@ -334,10 +335,10 @@ export const displayController = (() => {
       });
 
     document
-      .querySelector(".left-panel .next7days-tasks")
+      .querySelector(".left-panel .upcoming-tasks")
       .addEventListener("click", (e) => {
         setActiveTab(e.target);
-        showPage(NEXT7DAYS_MODE);
+        showPage(UPCOMING_MODE);
       });
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
