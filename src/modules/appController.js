@@ -66,6 +66,16 @@ export const appController = (() => {
     return tasks;
   };
 
+  const getCompletedTasks = () => {
+    return getAllTasks().filter((task) => task.completed);
+  };
+
+  const getExpiredTasks = () => {
+    return getAllTasks().filter((task) =>
+      isBefore(task.dueDate, startOfToday())
+    );
+  };
+
   const countIncomplete = (tasksList) => {
     return tasksList.filter((task) => task.completed === false).length;
   };
@@ -132,6 +142,8 @@ export const appController = (() => {
     getTodayTasks,
     getAllTasks,
     getUpcomingTasks,
+    getCompletedTasks,
+    getExpiredTasks,
     countAllIncomplete,
     countTodayIncomplete,
     countUpcomingIncomplete,

@@ -12,7 +12,9 @@ export const displayController = (() => {
   const ALL_MODE = 0;
   const TODAY_MODE = 1;
   const UPCOMING_MODE = 2;
-  const PROJECT_MODE = 3;
+  const COMPLETED_MODE = 3;
+  const EXPIRED_MODE = 4;
+  const PROJECT_MODE = 5;
 
   let viewMode = ALL_MODE;
   let activeProject = undefined;
@@ -28,7 +30,7 @@ export const displayController = (() => {
       projectItem.dataset.name = project.name;
 
       const projectName = document.createElement("p");
-      projectName.innerText = project.name;
+      projectName.innerText = `${project.name}`;
       projectItem.appendChild(projectName);
 
       const counter = document.createElement("span");
@@ -93,11 +95,11 @@ export const displayController = (() => {
     basicDiv.appendChild(checkbox);
 
     const titleLabel = document.createElement("label");
-    titleLabel.innerText = task.title;
+    titleLabel.innerText = `${task.title}`;
     basicDiv.appendChild(titleLabel);
 
     const projectBtn = document.createElement("button");
-    projectBtn.innerText = task.project.name;
+    projectBtn.innerText = `${task.project.name}`;
     projectBtn.className = "go-to-project";
     projectBtn.addEventListener("click", () => {
       setActiveTab(
@@ -205,9 +207,17 @@ export const displayController = (() => {
         icon.innerText = "date_range";
         contentTitleDiv.innerText = "Upcoming";
         break;
+      case COMPLETED_MODE:
+        icon.innerText = "task_alt";
+        contentTitleDiv.innerText = "Completed";
+        break;
+      case EXPIRED_MODE:
+        icon.innerText = "history";
+        contentTitleDiv.innerText = "Expired";
+        break;
       case PROJECT_MODE:
         icon.innerText = "";
-        contentTitleDiv.innerText = activeProject.name;
+        contentTitleDiv.innerText = `${activeProject.name}`;
     }
   };
 
@@ -263,6 +273,12 @@ export const displayController = (() => {
       case UPCOMING_MODE:
         tasks = appController.getUpcomingTasks();
         break;
+      case COMPLETED_MODE:
+        tasks = appController.getCompletedTasks();
+        break;
+      case EXPIRED_MODE:
+        tasks = appController.getExpiredTasks();
+        break;
       case PROJECT_MODE:
         tasks = activeProject.tasks;
     }
@@ -309,7 +325,7 @@ export const displayController = (() => {
     for (let project of appController.projectsList) {
       const newOption = document.createElement("option");
       newOption.value = project.name;
-      newOption.innerText = project.name;
+      newOption.innerText = `${project.name}`;
       projectSelectorOptions.appendChild(newOption);
     }
   };
@@ -341,7 +357,7 @@ export const displayController = (() => {
     } else {
       document.querySelector(".task-dialog .dialog-title").innerText =
         "Edit Task";
-      document.querySelector(".submit-task-btn").innerText = "Edit Task";
+      document.querySelector(".submit-task-btn").innerText = "Update Task";
     }
   };
 
@@ -389,6 +405,20 @@ export const displayController = (() => {
       .addEventListener("click", (e) => {
         setActiveTab(e.target);
         showPage(UPCOMING_MODE);
+      });
+
+    document
+      .querySelector(".left-panel .completed-tasks")
+      .addEventListener("click", (e) => {
+        setActiveTab(e.target);
+        showPage(COMPLETED_MODE);
+      });
+
+    document
+      .querySelector(".left-panel .expired-tasks")
+      .addEventListener("click", (e) => {
+        setActiveTab(e.target);
+        showPage(EXPIRED_MODE);
       });
 
     document.querySelector(".new-project-btn").addEventListener("click", () => {
