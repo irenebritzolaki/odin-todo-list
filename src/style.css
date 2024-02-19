@@ -83,7 +83,6 @@ header {
   gap: 5px;
   cursor: pointer;
   font-size: 22px;
-  border: 1px solid white;
   border-radius: 5px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.7);
@@ -92,7 +91,7 @@ header {
 .tab .counter {
   margin-left: 5px;
   border-radius: 50px;
-  background-color: var(--purple);
+  background-color: var(--pink);
   color: white;
   padding: 2px;
   width: 28px;
@@ -144,6 +143,12 @@ button.new-project-btn:hover {
   padding: 10px;
 }
 
+.project .project-name {
+  max-width: 180px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .buttons-div {
   margin-left: auto;
   gap: 5px;
@@ -188,16 +193,47 @@ button.new-project-btn:hover {
 .content-title {
   font-size: 30px;
   font-weight: 600;
+  color: rgb(30, 30, 30);
 }
 
 .content .top .icon {
   font-size: 30px;
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+  color: rgb(30, 30, 30);
+}
+
+.new-task-btn .material-symbols-outlined {
+  /* padding: 5px 7px; */
+  /* font-size: 20px; */
+  /* border: 1px solid rgb(30, 30, 30); */
+  /* border-radius: 10px; */
+  /* font-size: 30px; */
+  /* font-variation-settings: "FILL" 1; */
+  /* color: var(--purple); */
 }
 
 .new-task-btn {
-  padding: 5px;
+  /* width: 80px; */
   font-size: 20px;
+  align-items: center;
+  display: flex;
+  background-color: var(--pink);
+  margin-left: 5px;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 8px;
+  background: linear-gradient(22deg, var(--purple) 0%, var(--pink) 100%);
+}
+
+label[for="selectSort"] {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+#selectSort {
+  height: 25px;
+  width: 130px;
+  text-overflow: ellipsis;
 }
 
 .tasks-container {
@@ -333,7 +369,7 @@ button[type="submit"] {
 
 input,
 textarea,
-select {
+dialog select {
   padding: 10px;
   font-size: 18px;
 }

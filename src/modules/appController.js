@@ -76,6 +76,21 @@ export const appController = (() => {
     );
   };
 
+  const sortByDate = (tasksList) => {
+    return tasksList.sort((a, b) => {
+      if (a.dueDate === "-") return -1;
+      else if (b.dueDate === "-") return 1;
+      else return isBefore(a.dueDate, b.dueDate) ? -1 : 1;
+    });
+  };
+
+  const sortByPriority = (tasksList) => {
+    return tasksList.sort((a, b) => {
+      const priorityMap = { high: 3, medium: 2, low: 1, "": 0 };
+      return priorityMap[a.priority] - priorityMap[b.priority];
+    });
+  };
+
   const countIncomplete = (tasksList) => {
     return tasksList.filter((task) => task.completed === false).length;
   };
@@ -144,6 +159,8 @@ export const appController = (() => {
     getUpcomingTasks,
     getCompletedTasks,
     getExpiredTasks,
+    sortByDate,
+    sortByPriority,
     countAllIncomplete,
     countTodayIncomplete,
     countUpcomingIncomplete,

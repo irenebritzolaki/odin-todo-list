@@ -30,13 +30,16 @@ export const displayController = (() => {
       projectItem.dataset.name = project.name;
 
       const projectName = document.createElement("p");
+      projectName.className = "project-name";
       projectName.innerText = `${project.name}`;
       projectItem.appendChild(projectName);
 
-      const counter = document.createElement("span");
-      counter.classList = "counter";
-      counter.innerText = appController.countProjectIncomplete(project);
-      projectItem.appendChild(counter);
+      const counter = appController.countProjectIncomplete(project);
+      const counterSpan = document.createElement("span");
+      counterSpan.classList = "counter";
+      counterSpan.innerText = counter;
+      counterSpan.style.visibility = counter ? "visible" : "hidden";
+      projectItem.appendChild(counterSpan);
 
       const buttonsDiv = document.createElement("div");
       buttonsDiv.className = "buttons-div";
@@ -63,6 +66,7 @@ export const displayController = (() => {
         e.stopPropagation();
         appController.deleteProject(project);
         updateProjectSelectorOptions();
+        updateCounters();
         projectItem.remove();
 
         if (viewMode != PROJECT_MODE) renderContent();
@@ -145,6 +149,7 @@ export const displayController = (() => {
     deleteBtn.addEventListener("click", () => {
       task.project.deleteTask(task);
       taskDiv.remove();
+      updateCounters();
     });
 
     const viewBtn = document.createElement("button");
@@ -282,6 +287,22 @@ export const displayController = (() => {
       case PROJECT_MODE:
         tasks = activeProject.tasks;
     }
+
+    switch (document.querySelector("#selectSort").value) {
+      case "date-asc":
+        tasks = appController.sortByDate(tasks);
+        break;
+      case "date-desc":
+        tasks = appController.sortByDate(tasks).reverse();
+        break;
+      case "priority-lth":
+        tasks = appController.sortByPriority(tasks);
+        break;
+      case "priority-htl":
+        tasks = appController.sortByPriority(tasks).reverse();
+        break;
+    }
+
     displayTasks(tasks);
   };
 
@@ -445,8 +466,13 @@ export const displayController = (() => {
 
       if (viewMode === PROJECT_MODE && activeProject === project)
         updateContentTitle();
-      else showPage(PROJECT_MODE, project);
+      else {
+        showPage(PROJECT_MODE, project);
+      }
 
+      setActiveTab(
+        document.querySelector(`.project[data-name='${project.name}'`)
+      );
       projectForm.reset();
     });
 
@@ -454,6 +480,10 @@ export const displayController = (() => {
       setTaskModalMode("new");
       document.querySelector(".task-dialog").showModal();
     });
+
+    document
+      .querySelector("#selectSort")
+      .addEventListener("change", () => renderContent());
 
     const taskForm = document.querySelector(".task-dialog form");
     taskForm.addEventListener("submit", () => {

@@ -52,7 +52,17 @@
         <div class="top">
           <span class="icon material-symbols-outlined"></span>
           <h1 class="content-title"></h1>
-          <button class="new-task-btn">+ Add new task</button>
+          <button class="new-task-btn">
+            <span class="material-symbols-outlined">add</span> New&nbsp;
+          </button>
+          <label for="selectSort">Sort by:</label>
+          <select name="sort" id="selectSort">
+            <option value="default">Default</option>
+            <option value="date-asc">Date (asc.)</option>
+            <option value="date-desc">Date (desc.)</option>
+            <option value="priority-lth">Priority (low to high)</option>
+            <option value="priority-htl">Priority (high to low)</option>
+          </select>
         </div>
         <div class="tasks-container"></div>
       </div>
