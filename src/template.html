@@ -3,29 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <title>ToDoList</title>
   </head>
   <body>
     <header>
+      <span class="material-symbols-outlined"> checklist </span>
       <h1 class="logo">TaDa!</h1>
     </header>
     <div class="main">
       <div class="left-panel">
         <div class="main-tabs">
-          <a class="all-tasks tab active">All Tasks</a>
-          <a class="today-tasks tab">Today</a>
-          <a class="next7days-tasks tab">Next 7 days</a>
+          <a class="all-tasks tab active"
+            ><span class="material-symbols-outlined"> calendar_month </span>All
+            Tasks</a
+          >
+          <a class="today-tasks tab"
+            ><span class="material-symbols-outlined"> today </span>Today</a
+          >
+          <a class="next7days-tasks tab"
+            ><span class="material-symbols-outlined"> date_range </span>Next 7
+            days</a
+          >
         </div>
         <div class="projects-list-container">
           <div class="top">
             <h2>Projects</h2>
-            <button class="new-project-btn">+</button>
+            <button class="new-project-btn material-symbols-outlined">
+              add
+            </button>
           </div>
           <div class="projects-list"></div>
         </div>
       </div>
       <div class="content">
         <div class="top">
+          <span class="icon material-symbols-outlined">calendar_month</span>
           <h1 class="content-title">All Tasks</h1>
           <button class="new-task-btn">+ Add new task</button>
         </div>

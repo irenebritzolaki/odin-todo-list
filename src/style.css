@@ -23,6 +23,9 @@
 
 button {
   cursor: pointer;
+  background-color: unset;
+  outline: unset;
+  border: none;
 }
 
 body {
@@ -35,11 +38,17 @@ body {
   font-weight: 600;
 }
 
+header .material-symbols-outlined {
+  font-size: 40px;
+}
+
 header {
   padding: 10px 20px;
   height: 6%;
   color: white;
   background: linear-gradient(22deg, var(--purple) 0%, var(--pink) 100%);
+  display: flex;
+  gap: 5px;
 }
 
 .main {
@@ -69,6 +78,8 @@ header {
 }
 
 .tab {
+  display: flex;
+  gap: 5px;
   cursor: pointer;
   font-size: 22px;
   border: 1px solid white;
@@ -90,27 +101,23 @@ header {
 }
 
 button.new-project-btn {
-  border: 1px solid black;
   border-radius: 50%;
   font-size: 24px;
   width: 30px;
   height: 30px;
-
-  background-color: unset;
-  outline: unset;
-  border: none;
   font-size: 28px;
 }
 
 button.new-project-btn:hover {
   background-color: var(--purple);
-  background-color: white;
+  color: white;
 }
 
 .project,
 .buttons-div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .project {
@@ -122,7 +129,20 @@ button.new-project-btn:hover {
 }
 
 .buttons-div button {
-  width: 20px;
+  color: rgb(30, 30, 30);
+  padding: 3px;
+  border-radius: 3px;
+  font-weight: 300;
+}
+
+.tab:hover button,
+.tab.active button {
+  color: white;
+}
+
+.buttons-div button:hover {
+  background-color: white;
+  color: rgb(30, 30, 30);
 }
 
 .tab:hover,
@@ -140,8 +160,13 @@ button.new-project-btn:hover {
 .content .top {
   display: flex;
   /* justify-content: space-between; */
-  gap: 20px;
+  gap: 5px;
   align-items: center;
+}
+
+.content .top .icon {
+  font-size: 30px;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 .new-task-btn {
@@ -168,7 +193,7 @@ button.new-project-btn:hover {
 
 .task .basic {
   display: grid;
-  grid-template-columns: 0.2fr 10fr 1fr 1.5fr 0.5fr 0.5fr 0.5fr;
+  grid-template-columns: 0.2fr 10fr 1fr 1fr 1fr;
   align-items: center;
   gap: 15px;
 }
@@ -200,9 +225,12 @@ button.new-project-btn:hover {
 .view-task-btn,
 .edit-task-btn,
 .delete-task-btn {
-  font-size: 16px;
-  width: 60px;
-  padding: 5px;
+  color: rgb(30, 30, 30);
+  font-weight: 300;
+}
+
+.task .buttons-div button:hover {
+  background-color: rgb(240, 240, 240);
 }
 
 .task input[type="checkbox"]:checked ~ label {
@@ -240,9 +268,6 @@ dialog .top {
 }
 
 .close-btn {
-  border: none;
-  outline: none;
-  background-color: unset;
   font-size: 20px;
   color: white;
 }

@@ -34,8 +34,9 @@ export const displayController = (() => {
       buttonsDiv.className = "buttons-div";
 
       const renameProjectBtn = document.createElement("button");
-      renameProjectBtn.className = "rename-project-btn";
-      renameProjectBtn.innerText = "R";
+      renameProjectBtn.className =
+        "rename-project-btn material-symbols-outlined";
+      renameProjectBtn.innerText = "edit_square";
       buttonsDiv.appendChild(renameProjectBtn);
       renameProjectBtn.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -45,8 +46,9 @@ export const displayController = (() => {
       });
 
       const deleteProjectBtn = document.createElement("button");
-      deleteProjectBtn.className = "delete-project-btn";
-      deleteProjectBtn.innerText = "D";
+      deleteProjectBtn.className =
+        "delete-project-btn material-symbols-outlined";
+      deleteProjectBtn.innerText = "delete";
       buttonsDiv.appendChild(deleteProjectBtn);
       deleteProjectBtn.addEventListener("click", (e) => {
         // todo show modal for confirming delete
@@ -60,9 +62,10 @@ export const displayController = (() => {
       });
 
       projectItem.appendChild(buttonsDiv);
-      projectItem.addEventListener("click", () =>
-        showPage(PROJECT_MODE, project)
-      );
+      projectItem.addEventListener("click", (e) => {
+        setActiveTab(e.target);
+        showPage(PROJECT_MODE, project);
+      });
       projectsListDiv.appendChild(projectItem);
     }
   };
@@ -109,15 +112,13 @@ export const displayController = (() => {
 
     basicDiv.appendChild(dueDate);
 
-    const viewBtn = document.createElement("button");
-    viewBtn.className = "view-task-btn";
-    viewBtn.innerText = "View";
-    basicDiv.appendChild(viewBtn);
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.className = "buttons-div";
 
     const editBtn = document.createElement("button");
-    editBtn.className = "edit-task-btn";
-    editBtn.innerText = "Edit";
-    basicDiv.appendChild(editBtn);
+    editBtn.className = "edit-task-btn material-symbols-outlined";
+    editBtn.innerText = "edit_square";
+    buttonsDiv.appendChild(editBtn);
     editBtn.addEventListener("click", () => {
       setTaskModalMode("edit");
       taskToEdit = task;
@@ -126,14 +127,20 @@ export const displayController = (() => {
     });
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.className = "delete-task-btn";
-    deleteBtn.innerText = "Delete";
-    basicDiv.appendChild(deleteBtn);
+    deleteBtn.className = "delete-task-btn material-symbols-outlined";
+    deleteBtn.innerText = "delete";
+    buttonsDiv.appendChild(deleteBtn);
     deleteBtn.addEventListener("click", () => {
       task.project.deleteTask(task);
       taskDiv.remove();
     });
 
+    const viewBtn = document.createElement("button");
+    viewBtn.className = "view-task-btn material-symbols-outlined";
+    viewBtn.innerText = "info";
+    buttonsDiv.appendChild(viewBtn);
+
+    basicDiv.appendChild(buttonsDiv);
     taskDiv.appendChild(basicDiv);
 
     const detailsDiv = document.createElement("div");
@@ -173,17 +180,23 @@ export const displayController = (() => {
 
   const updateContentTitle = () => {
     const contentTitleDiv = document.querySelector(".content-title");
+    const icon = document.querySelector(".content .top .icon");
+
     switch (viewMode) {
       case ALL_MODE:
+        icon.innerText = "calendar_month";
         contentTitleDiv.innerText = "All tasks";
         break;
       case TODAY_MODE:
+        icon.innerText = "today";
         contentTitleDiv.innerText = "Today";
         break;
       case NEXT7DAYS_MODE:
+        icon.innerText = "date_range";
         contentTitleDiv.innerText = "Next 7 days";
         break;
       case PROJECT_MODE:
+        icon.innerText = "";
         contentTitleDiv.innerText = activeProject.name;
     }
   };
@@ -204,6 +217,12 @@ export const displayController = (() => {
         tasks = activeProject.tasks;
     }
     displayTasks(tasks);
+  };
+
+  const setActiveTab = (tab) => {
+    if (document.querySelector(".tab.active"))
+      document.querySelector(".tab.active").classList.remove("active");
+    tab.classList.add("active");
   };
 
   const showPage = (mode, project) => {
@@ -302,19 +321,22 @@ export const displayController = (() => {
   const addEventListeners = () => {
     document
       .querySelector(".left-panel .all-tasks")
-      .addEventListener("click", () => {
+      .addEventListener("click", (e) => {
+        setActiveTab(e.target);
         showPage(ALL_MODE);
       });
 
     document
       .querySelector(".left-panel .today-tasks")
-      .addEventListener("click", () => {
+      .addEventListener("click", (e) => {
+        setActiveTab(e.target);
         showPage(TODAY_MODE);
       });
 
     document
       .querySelector(".left-panel .next7days-tasks")
-      .addEventListener("click", () => {
+      .addEventListener("click", (e) => {
+        setActiveTab(e.target);
         showPage(NEXT7DAYS_MODE);
       });
 
