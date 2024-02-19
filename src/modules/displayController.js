@@ -25,10 +25,16 @@ export const displayController = (() => {
     for (let project of appController.projectsList) {
       const projectItem = document.createElement("div");
       projectItem.className = "project tab";
+      projectItem.dataset.name = project.name;
 
       const projectName = document.createElement("p");
       projectName.innerText = project.name;
       projectItem.appendChild(projectName);
+
+      const counter = document.createElement("span");
+      counter.classList = "counter";
+      counter.innerText = appController.countProjectIncomplete(project);
+      projectItem.appendChild(counter);
 
       const buttonsDiv = document.createElement("div");
       buttonsDiv.className = "buttons-div";
@@ -81,6 +87,7 @@ export const displayController = (() => {
     checkbox.type = "checkbox";
     checkbox.addEventListener("change", function () {
       task.toggleComplete();
+      updateCounters(task.project);
     });
     if (task.completed) checkbox.checked = true;
     basicDiv.appendChild(checkbox);
@@ -93,7 +100,9 @@ export const displayController = (() => {
     projectBtn.innerText = task.project.name;
     projectBtn.className = "go-to-project";
     projectBtn.addEventListener("click", () => {
-      // todo activate tab
+      setActiveTab(
+        document.querySelector(`.project[data-name='${task.project.name}']`)
+      );
       showPage(PROJECT_MODE, task.project);
     });
     if (viewMode === PROJECT_MODE) projectBtn.style.visibility = "hidden";
@@ -199,6 +208,46 @@ export const displayController = (() => {
       case PROJECT_MODE:
         icon.innerText = "";
         contentTitleDiv.innerText = activeProject.name;
+    }
+  };
+
+  // when editing a task update all counters else (when just toggle) update only general counters and task's project counter
+  const updateCounters = (taskProject) => {
+    const allCounter = appController.countAllIncomplete();
+    document.querySelector(".all-tasks .counter").innerText = allCounter;
+    document.querySelector(".all-tasks .counter").style.visibility = allCounter
+      ? "visible"
+      : "hidden";
+
+    const todayCounter = appController.countTodayIncomplete();
+    document.querySelector(".today-tasks .counter").innerText = todayCounter;
+    document.querySelector(".today-tasks .counter").style.visibility =
+      todayCounter ? "visible" : "hidden";
+
+    const upcomingCounter = appController.countUpcomingIncomplete();
+    document.querySelector(".upcoming-tasks .counter").innerText =
+      upcomingCounter;
+    document.querySelector(".upcoming-tasks .counter").style.visibility =
+      upcomingCounter ? "visible" : "hidden";
+
+    if (!taskProject) {
+      for (let project of appController.projectsList) {
+        let counter = appController.countProjectIncomplete(project);
+        document.querySelector(
+          `.project[data-name='${project.name}'] .counter`
+        ).innerText = counter;
+        document.querySelector(
+          `.project[data-name='${project.name}'] .counter`
+        ).style.visibility = counter ? "visible" : "hidden";
+      }
+    } else {
+      let counter = appController.countProjectIncomplete(taskProject);
+      document.querySelector(
+        `.project[data-name='${taskProject.name}'] .counter`
+      ).innerText = counter;
+      document.querySelector(
+        `.project[data-name='${taskProject.name}'] .counter`
+      ).style.visibility = counter ? "visible" : "hidden";
     }
   };
 
@@ -316,6 +365,7 @@ export const displayController = (() => {
   const initializeDisplay = () => {
     displayProjectsList();
     updateProjectSelectorOptions();
+    updateCounters();
     showPage(ALL_MODE);
   };
 
@@ -409,6 +459,7 @@ export const displayController = (() => {
       }
 
       renderContent();
+      updateCounters();
       taskForm.reset();
     });
 

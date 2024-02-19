@@ -66,6 +66,26 @@ export const appController = (() => {
     return tasks;
   };
 
+  const countIncomplete = (tasksList) => {
+    return tasksList.filter((task) => task.completed === false).length;
+  };
+
+  const countAllIncomplete = () => {
+    return countIncomplete(getAllTasks());
+  };
+
+  const countTodayIncomplete = () => {
+    return countIncomplete(getTodayTasks());
+  };
+
+  const countUpcomingIncomplete = () => {
+    return countIncomplete(getUpcomingTasks());
+  };
+
+  const countProjectIncomplete = (project) => {
+    return countIncomplete(project.tasks);
+  };
+
   /* ??? when i'll use projectKey and taskKey i may not need these 2 functions, cause i'll use id/name 
   in task.project and not the whole project object. So i'll just update projectsList */
   const loadProjects = (projectsToLoad) => {
@@ -112,6 +132,10 @@ export const appController = (() => {
     getTodayTasks,
     getAllTasks,
     getUpcomingTasks,
+    countAllIncomplete,
+    countTodayIncomplete,
+    countUpcomingIncomplete,
+    countProjectIncomplete,
     updateLocalStorage,
   };
 })();

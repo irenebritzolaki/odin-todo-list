@@ -79,6 +79,7 @@ header {
 
 .tab {
   display: flex;
+  align-items: center;
   gap: 5px;
   cursor: pointer;
   font-size: 22px;
@@ -86,6 +87,25 @@ header {
   border-radius: 5px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+.tab .counter {
+  margin-left: 5px;
+  border-radius: 50px;
+  background-color: var(--purple);
+  color: white;
+  padding: 2px;
+  width: 28px;
+  height: 22px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tab:hover .counter,
+.tab.active .counter {
+  background-color: white;
+  color: initial;
 }
 
 .projects-list-container .top {
@@ -125,6 +145,7 @@ button.new-project-btn:hover {
 }
 
 .buttons-div {
+  margin-left: auto;
   gap: 5px;
 }
 
@@ -193,7 +214,7 @@ button.new-project-btn:hover {
   display: flex;
   flex-flow: column;
   font-size: 18px;
-  gap: 10px;
+  gap: 5px;
   border-left: 6px solid rgb(185, 185, 185);
 }
 
