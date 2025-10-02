@@ -21,6 +21,7 @@ It supports **projects** and **tasks within each project**, and it persists data
 - Legend for priority colors
 - Confirmation dialogs for deleting projects or tasks
 - Style updates for an improved UI
+- Make it responsive for more displays
 - And of course… fix some miiiiiiiinor bugs 😬
 
 ## Live Demo
