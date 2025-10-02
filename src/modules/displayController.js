@@ -484,9 +484,10 @@ export const displayController = (() => {
       updateProjectSelectorOptions();
       displayProjectsList();
 
-      if (viewMode === PROJECT_MODE && activeProject === project)
+      if (viewMode === PROJECT_MODE && activeProject === project) {
         updateContentTitle();
-      else {
+        setProjectSelectorDefault(project);
+      } else {
         showPage(PROJECT_MODE, project);
       }
 

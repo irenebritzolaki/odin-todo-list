@@ -420,13 +420,13 @@ input[type="radio"]:checked ~ label {
 }
 
 input[value="high"]:checked ~ label {
-  background-color: var(--high-priority-color-opaque);
+  background-color: var(--high-priority-color);
 }
 
 input[value="medium"]:checked ~ label {
-  background-color: var(--medium-priority-color-opaque);
+  background-color: var(--medium-priority-color);
 }
 
 input[value="low"]:checked ~ label {
-  background-color: var(--low-priority-color-opaque);
+  background-color: var(--low-priority-color);
 }
