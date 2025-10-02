@@ -341,7 +341,10 @@ export const displayController = (() => {
 
     if (mode != PROJECT_MODE) resetProjectSelectorDefault();
     else setProjectSelectorDefault(project);
-    // todo: if todays tasks, set today as default date
+
+    if (mode != TODAY_MODE) resetTodayAsDefaultDate();
+    else setTodayAsDefaultDate();
+    // fix bug
 
     updateContentTitle();
     renderContent();
@@ -359,6 +362,16 @@ export const displayController = (() => {
     document.querySelector(
       `.task-dialog form select option[value='${project.name}']`
     ).defaultSelected = true;
+  };
+
+  const resetTodayAsDefaultDate = () => {
+    document.querySelector("#task-due-date").value = "";
+  };
+
+  const setTodayAsDefaultDate = (project) => {
+    const today = new Date();
+    const iso = today.toISOString().split("T")[0]; // parse the right format for the <input>
+    document.querySelector("#task-due-date").value = iso;
   };
 
   const updateProjectSelectorOptions = () => {
@@ -542,6 +555,7 @@ export const displayController = (() => {
       renderContent();
       updateCounters();
       taskForm.reset();
+      if (viewMode === TODAY_MODE) setTodayAsDefaultDate(); // fix bug
     });
 
     document.querySelectorAll(".close-btn").forEach((btn) =>
