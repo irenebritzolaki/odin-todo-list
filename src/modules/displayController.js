@@ -89,14 +89,19 @@ export const displayController = (() => {
     const basicDiv = document.createElement("div");
     basicDiv.className = "basic";
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.addEventListener("change", function () {
-      task.toggleComplete();
-      updateCounters(task.project);
-    });
-    if (task.completed) checkbox.checked = true;
-    basicDiv.appendChild(checkbox);
+    const customCheckbox = document.createElement("span");
+    customCheckbox.className = "checkbox material-symbols-outlined";
+    // customCheckbox.innerText = task.completed
+    // ? "check_circle"
+    // : "radio_button_unchecked";
+    // checkbox.type = "checkbox";
+    // checkbox.addEventListener("change", function () {
+    //   task.toggleComplete();
+    //   updateCounters(task.project);
+    //   renderContent();
+    // });
+    if (task.completed) customCheckbox.classList.add("checked");
+    basicDiv.appendChild(customCheckbox);
 
     const titleLabel = document.createElement("label");
     titleLabel.innerText = `${task.title}`;
@@ -105,7 +110,8 @@ export const displayController = (() => {
     const projectBtn = document.createElement("button");
     projectBtn.innerText = `${task.project.name}`;
     projectBtn.className = "go-to-project";
-    projectBtn.addEventListener("click", () => {
+    projectBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       setActiveTab(
         document.querySelector(`.project[data-name='${task.project.name}']`)
       );
@@ -121,7 +127,10 @@ export const displayController = (() => {
     if (isToday(task.dueDate)) dueDate.innerText = "Today";
     else if (isTomorrow(task.dueDate)) dueDate.innerText = "Tomorrow";
     else if (isYesterday(task.dueDate)) dueDate.innerText = "Yesterday";
-    else dueDate.innerText = task.dueDate;
+    else
+      dueDate.innerText = task.dueDate
+        ? format(task.dueDate, "MM-dd-yyyy")
+        : "-";
 
     if (isBefore(task.dueDate, startOfToday()))
       dueDate.classList.add("expired");
@@ -135,7 +144,8 @@ export const displayController = (() => {
     editBtn.className = "edit-task-btn material-symbols-outlined";
     editBtn.innerText = "edit_square";
     buttonsDiv.appendChild(editBtn);
-    editBtn.addEventListener("click", () => {
+    editBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       setTaskModalMode("edit");
       taskToEdit = task;
       loadTaskForm(task);
@@ -146,7 +156,8 @@ export const displayController = (() => {
     deleteBtn.className = "delete-task-btn material-symbols-outlined";
     deleteBtn.innerText = "delete";
     buttonsDiv.appendChild(deleteBtn);
-    deleteBtn.addEventListener("click", () => {
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       task.project.deleteTask(task);
       taskDiv.remove();
       updateCounters();
@@ -175,7 +186,8 @@ export const displayController = (() => {
 
     taskDiv.appendChild(detailsDiv);
 
-    viewBtn.addEventListener("click", () => {
+    viewBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       if (detailsDiv.style.display === "none")
         detailsDiv.style.display = "initial";
       else detailsDiv.style.display = "none";
@@ -183,6 +195,17 @@ export const displayController = (() => {
 
     if (task.priority != "")
       taskDiv.style.borderColor = `var(--${task.priority}-priority-color)`;
+
+    taskDiv.addEventListener("click", function () {
+      task.toggleComplete();
+      customCheckbox.classList.toggle("checked");
+      // customCheckbox.innerText = task.completed
+      //   ? "check_circle"
+      //   : "radio_button_unchecked";
+
+      updateCounters(task.project);
+      renderContent();
+    });
 
     return taskDiv;
   };
@@ -387,11 +410,8 @@ export const displayController = (() => {
     document.querySelector("#task-title").value = task.title;
     document.querySelector("#task-description").description = task.description;
 
-    if (task.dueDate != "-")
-      document.querySelector("#task-due-date").value = format(
-        task.dueDate,
-        "yyyy-MM-dd"
-      );
+    if (task.dueDate)
+      document.querySelector("#task-due-date").value = task.dueDate;
 
     if (task.priority != "")
       document.querySelector(`#${task.priority}`).checked = true;

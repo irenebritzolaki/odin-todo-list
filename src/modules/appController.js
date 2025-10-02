@@ -78,8 +78,8 @@ export const appController = (() => {
 
   const sortByDate = (tasksList) => {
     return tasksList.sort((a, b) => {
-      if (a.dueDate === "-") return -1;
-      else if (b.dueDate === "-") return 1;
+      if (!a.dueDate) return -1;
+      else if (!b.dueDate) return 1;
       else return isBefore(a.dueDate, b.dueDate) ? -1 : 1;
     });
   };

@@ -11,7 +11,7 @@ export class Task {
   ) {
     this.title = title;
     this.description = description;
-    this.dueDate = dueDate ? dueDate : "-";
+    this.dueDate = dueDate;
     this.priority = priority;
     this.project = project;
     this.completed = completed;
@@ -25,7 +25,7 @@ export class Task {
   update(title, description, dueDate, priority, project) {
     this.title = title;
     this.description = description;
-    this.dueDate = dueDate ? dueDate : "-";
+    this.dueDate = dueDate;
     this.priority = priority;
 
     if (project) this.project = project;
