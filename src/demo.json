@@ -18,13 +18,13 @@
       {
         "title": "Go to the dentist",
         "description": "Location: P. Sherman 42 Wallaby Way. Tel: 123456789",
-        "dueDate": "02-20-2024",
+        "dueDate": "2025-09-07",
         "priority": "high"
       },
       {
         "title": "Take a shower",
         "description": "Lalala",
-        "dueDate": "02-19-2024",
+        "dueDate": "2025-10-06",
         "priority": ""
       }
     ]
@@ -35,13 +35,13 @@
       {
         "title": "Fix bug #7677",
         "description": "",
-        "dueDate": "02-18-2024",
+        "dueDate": "2025-10-10",
         "priority": "high"
       },
       {
         "title": "Fix bug #5588",
         "description": "",
-        "dueDate": "02-19-2024",
+        "dueDate": "2025-10-03",
         "priority": "high",
         "completed": "true"
       },
@@ -59,7 +59,7 @@
       {
         "title": "Workout",
         "description": "",
-        "dueDate": "02-19-2024",
+        "dueDate": "2025-10-18",
         "priority": "high"
       }
     ]

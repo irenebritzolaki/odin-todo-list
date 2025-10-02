@@ -408,7 +408,7 @@ export const displayController = (() => {
   const loadTaskForm = (task) => {
     document.querySelector("#task-key").value = task.title; // temporary solution
     document.querySelector("#task-title").value = task.title;
-    document.querySelector("#task-description").description = task.description;
+    document.querySelector("#task-description").value = task.description;
 
     if (task.dueDate)
       document.querySelector("#task-due-date").value = task.dueDate;
