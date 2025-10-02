@@ -129,7 +129,7 @@ export const displayController = (() => {
     else if (isYesterday(task.dueDate)) dueDate.innerText = "Yesterday";
     else
       dueDate.innerText = task.dueDate
-        ? format(task.dueDate, "MM-dd-yyyy")
+        ? format(task.dueDate, "dd-MM-yyyy")
         : "-";
 
     if (isBefore(task.dueDate, startOfToday()))
